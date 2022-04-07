@@ -9,12 +9,12 @@ const JWT_SECRET = process.env.JWTPRIVATEKEY;
 
 const {userModel,validateUser} = require("./../models/user.model");
 
-//get admin users
+//get student users
 router.get("/",async (req,res) => {
     try{
-        const admins = await userModel.find({type:"admin"});
-        res.json(admins);
-        console.log("ADMINS : "+ `${admins}`);
+        const students = await userModel.find({type:"student"});
+        res.json(students);
+        console.log("STUDENTS : "+ `${students}`);
     }
     catch(err){
         res.json({message: err});
@@ -25,7 +25,7 @@ router.post("/signup", async(req, res) => {
     try{
         // console.log("Here");
         console.log(req.body);
-        req.body.type = "admin";
+        req.body.type = "student";
         const {error} = validateUser(req.body);
         // console.log(error);
         if(error)
@@ -36,15 +36,15 @@ router.post("/signup", async(req, res) => {
         if(user)
             return res.status(400).send({message: "Email already in use!!"});
         // console.log("Email validated");
-        const newAdminUser = new userModel({
+        const newStudentUser = new userModel({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
             password: await bcrypt.hash(req.body.password,11),
             type: req.body.type,
         });
-        const savedAdmin = await newAdminUser.save();
-        console.log("savedAdmin" + `${savedAdmin}`);
+        const savedStudent = await newStudentUser.save();
+        console.log("savedStudent" + `${savedStudent}`);
         return res.status(201).send({ message: "User created successfully" });
     }catch(err){
         console.log(err);
@@ -55,21 +55,21 @@ router.post("/signup", async(req, res) => {
 router.post('/signin',async (req,res) => {
     try{
         // const {, password} = req.body;
-        const admin = await userModel.findOne({email:req.body.email, type:"admin"});
-        if(!admin)
+        const student = await userModel.findOne({email:req.body.email, type:"student"});
+        if(!student)
         {   
-            console.log("Email not in Admin Data");
+            console.log("Email not in Student Data");
             return res.status(401).send({message: "Invalid Email or Password"});
         }
         const validPwd = await bcrypt.compare(
-            req.body.password, admin.password
+            req.body.password, student.password
         );
         if(!validPwd)
         {   
-            console.log("Admin: Password not valid");
+            console.log("Student: Password not valid");
             return res.status(401).send({message: "Invalid Email or Password"});
         }
-        const token = admin.generateAuthToken();
+        const token = student.generateAuthToken();
         console.log("Log in successful");
         res.status(200).send({data: token, message: "Logged In successfully"});
     }catch(err){

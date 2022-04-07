@@ -19,6 +19,9 @@ const port = process.env.PORT || 3001;
 const userAdmin = require("./routes/userAdmin");
 app.use("/admin",userAdmin);
 
+const userStudent = require("./routes/userStudent");
+app.use("/student",userStudent);
+
 app.get('/hello',check,(req,res)=>{
     console.log("hello");
     res.send('hello world');
