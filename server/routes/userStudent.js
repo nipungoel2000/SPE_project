@@ -29,12 +29,12 @@ router.post("/signup", async(req, res) => {
         const {error} = validateUser(req.body);
         // console.log(error);
         if(error)
-            return res.json({status: "error", message : error.details[0].message}); //res.status(400).send({message : error.details[0].message})
+            return res.json({status: 400, message : error.details[0].message}); //res.status(400).send({message : error.details[0].message})
         // console.log("User validated");
         const user = await userModel.findOne({email:req.body.email})
         // console.log(user);
         if(user)
-            return res.status(400).send({message: "Email already in use!!"});
+            return res.json({status: 400, message :"Email already in use!!"});
         // console.log("Email validated");
         const newStudentUser = new userModel({
             firstName: req.body.firstName,
@@ -45,7 +45,7 @@ router.post("/signup", async(req, res) => {
         });
         const savedStudent = await newStudentUser.save();
         console.log("savedStudent" + `${savedStudent}`);
-        return res.status(201).send({ message: "User created successfully" });
+        return res.json({status: 201, message : "User created successfully" });
     }catch(err){
         console.log(err);
         return res.status(500).send({message: "Internal Server Error"});
