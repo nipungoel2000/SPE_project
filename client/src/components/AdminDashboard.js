@@ -11,7 +11,9 @@ function AdminDashboard() {
     function logout() 
     {
       if (window.confirm("Would you like to logout?")) {
-        localStorage.clear();
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        // localStorage.clear();
         window.location = "/adminSignin";
       }
     }
