@@ -1,16 +1,35 @@
 import React , {useEffect,useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link,Navigate,useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import './style2.css';
 // login reference: https://codepen.io/rares-lungescu/pen/KLbMvo
 
 function AdminSignup() {
 
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
+      console.log("HERE_1");
+      // history.push('/adminDashboard')
+      navigate('/adminDashboard')
+    }
+    if(localStorage.getItem('token') && localStorage.getItem('role')==='student'){
+      console.log("HERE_2");
+      // history.push('/Dashboard')
+    }
+  });
+
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   
+
+  // useEffect(() => {
+  //   console.log("In use effect");
+  // },[firstName]);
+
   const FormHeader = props => (
     <h2 id="headerTitle">{props.title}</h2>
   );
@@ -62,6 +81,8 @@ function AdminSignup() {
     console.log(lastName);
     console.log(email);
     console.log(password);
+    // console.log(props.check);
+    // props.setCheck(2);
     let signup_data = {
       firstName: firstName,
       lastName: lastName,

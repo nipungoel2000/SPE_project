@@ -59,7 +59,7 @@ router.post('/signin',async (req,res) => {
         if(!admin)
         {   
             console.log("Email not in Admin Data");
-            return res.status(401).send({message: "Invalid Email or Password"});
+            return res.json({status: 401, message: "Invalid Email or Password"});
         }
         const validPwd = await bcrypt.compare(
             req.body.password, admin.password
@@ -67,11 +67,11 @@ router.post('/signin',async (req,res) => {
         if(!validPwd)
         {   
             console.log("Admin: Password not valid");
-            return res.status(401).send({message: "Invalid Email or Password"});
+            return res.json({status: 401, message: "Invalid Email or Password"});
         }
         const token = admin.generateAuthToken();
         console.log("Log in successful");
-        res.status(200).send({data: token, message: "Logged In successfully"});
+        return res.json({status: 201, data: token, message: "Logged In successfully"});
     }catch(err){
         console.log(err);
         return res.status(500).send({message: "Internal Server Error"});

@@ -1,68 +1,117 @@
 // login reference: https://codepen.io/rares-lungescu/pen/KLbMvo
-import React , {useEffect,useState} from 'react';
-// import './adminSigin.css';
+import React , {useEffect,useState, useContext} from 'react';
 import './style.css';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import axios from "axios";
+// import { tokenContext } from '../App';
 
-function adminSignin() {
+function AdminSignin() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
+      console.log("HERE_1");
+      navigate('/adminDashboard');
+      // history.push('/adminDashboard')
+    }
+    if(localStorage.getItem('token') && localStorage.getItem('role')==='student'){
+      console.log("HERE_2");
+      // history.push('/Dashboard')
+    }
+  });
+
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  // const {userToken,setuserToken} = useContext(tokenContext);
+  function FormHeader(props){
+    return <h2 id="headerTitle">{props.title}</h2>
+  };
+
+  const OtherMethods = props => (
+  <div id="alternativeLogin">
+    <span>
+      Don't have an admin account?{" "}
+      <Link to="/AdminSignup">Sign Up Now</Link>
+    </span>
+    <br />
+    <span>
+      Go to {" "}
+      <Link to="/StudentSignin">Student Sign In</Link>
+    </span>
+    <br/>
+    <p style={{color: "gray"}}>Made by Nipun and Vinayak</p>
+  </div>
+  );
+
+  const onSubmit = (data) =>
+  { 
+    console.log(email);
+    console.log(password);
+    let signin_data = {
+      email:email,
+      password:password
+    };
+    axios({
+      url: "http://localhost:3001/admin/signin",
+      method: "POST",
+      data: signin_data,
+    }).then((res) => {
+      console.log(res);
+      if(res.data.status==201)
+      {  
+        // setuserToken(res.data.data);
+        // console.log(userToken);
+        console.log(res.data.data);
+        localStorage.setItem("role", "admin");
+        localStorage.setItem("token",res.data.data);
+        alert("Logged in successfully");
+        setemail("");
+        setpassword("");
+
+        window.location="/adminDashboard";
+      }
+      else if(res.data.status==401)
+      {
+        alert(res.data.message);
+      }
+      else
+      {
+        alert("Admin login failed");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      // console.log(res.status);
+      alert("Admin login failed : "+err.message);
+    })
+    console.log("Button Clicked");
+  };
+  // useEffect(() => {
+  //   if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
+  //     console.log("HERE_1");
+  //     navigate('/adminDashboard');
+  //     // history.push('/adminDashboard')
+  //   }
+  //   if(localStorage.getItem('token') && localStorage.getItem('role')==='student'){
+  //     console.log("HERE_2");
+  //     // history.push('/Dashboard')
+  //   }
+  // });
   return (
     <div id="loginform">
-        <FormHeader title="Admin Sign in" />
-        <Form />
-        <OtherMethods />
+      <FormHeader title="Admin Sign in" />
+      <div className="row">
+        <label>Email</label>
+        <input type="text" placeholder="Enter your email id" value = {email} onChange={(event)=> {setemail(event.target.value)}}/>
       </div>
+      <div className="row">
+        <label>Password</label>
+        <input type="password" placeholder="Enter your password" value = {password} onChange={(event)=> {setpassword(event.target.value)}}/>
+      </div>  
+      <div id="button" class="row">
+        <button onClick={onSubmit}>Sign in</button>
+      </div>
+      <OtherMethods />
+    </div>
   );
 }
-
-function FormHeader(props){
-  return <h2 id="headerTitle">{props.title}</h2>
-};
-
-
-const Form = props => (
- <div>
-   <FormInput description="Email" placeholder="Enter your email id" type="text" />
-   <FormInput description="Password" placeholder="Enter your password" type="password"/>
-   <FormButton title="Sign in"/>
- </div>
-);
-
-const FormButton = props => (
-<div id="button" class="row">
-  <button>{props.title}</button>
-</div>
-);
-
-const FormInput = props => (
-<div class="row">
-  <label>{props.description}</label>
-  <input type={props.type} placeholder={props.placeholder}/>
-</div>  
-);
-
-const OtherMethods = props => (
-// {/* <div id="alternativeLogin">
-//   <label>Or sign in with:</label>
-//   <div id="iconGroup">
-//     <Facebook />
-//     <Twitter />
-//     <Google />
-//   </div>
-// </div> */}
-<div id="alternativeLogin">
-  <span>
-    Don't have an admin account?{" "}
-    <Link to="/AdminSignup">Sign Up Now</Link>
-  </span>
-  <br />
-  <span>
-    Go to {" "}
-    <Link to="/StudentSignin">Student Sign In</Link>
-  </span>
-  <br/>
-  <p style={{color: "gray"}}>Made by Nipun and Vinayak</p>
-</div>
-);
-
-export default adminSignin;
+export default AdminSignin;
