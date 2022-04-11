@@ -6,16 +6,16 @@ import axios from "axios";
 // import { tokenContext } from '../App';
 
 function AdminSignin() {
+  
   const navigate = useNavigate();
   useEffect(() => {
     if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
-      console.log("HERE_1");
+      // console.log("HERE_1");
       navigate('/adminDashboard');
-      // history.push('/adminDashboard')
     }
     if(localStorage.getItem('token') && localStorage.getItem('role')==='student'){
-      console.log("HERE_2");
-      // history.push('/Dashboard')
+      // console.log("HERE_2");
+      navigate('/studentDashboard');
     }
   });
 

@@ -54,7 +54,7 @@ router.post("/signup", async(req, res) => {
 
 router.post('/signin',async (req,res) => {
     try{
-        // const {, password} = req.body;
+        
         const admin = await userModel.findOne({email:req.body.email, type:"admin"});
         if(!admin)
         {   

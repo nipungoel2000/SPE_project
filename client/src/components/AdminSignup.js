@@ -1,5 +1,5 @@
 import React , {useEffect,useState} from 'react';
-import {Link,Navigate,useNavigate} from 'react-router-dom';
+import {Link,useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import './style2.css';
 // login reference: https://codepen.io/rares-lungescu/pen/KLbMvo
@@ -10,13 +10,11 @@ function AdminSignup() {
   
   useEffect(() => {
     if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
-      console.log("HERE_1");
-      // history.push('/adminDashboard')
       navigate('/adminDashboard')
     }
     if(localStorage.getItem('token') && localStorage.getItem('role')==='student'){
-      console.log("HERE_2");
-      // history.push('/Dashboard')
+      // console.log("HERE_2");
+      navigate('/studentDashboard');
     }
   });
 

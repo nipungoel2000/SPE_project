@@ -3,26 +3,24 @@ import React , {useEffect,useState, useContext} from 'react';
 import './style.css';
 import {Link, useNavigate} from 'react-router-dom';
 import axios from "axios";
-// import { tokenContext } from '../App';
 
 function StudentSignin() {
+
   const navigate = useNavigate();
   useEffect(() => {
     if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
       console.log("HERE_1");
       navigate('/adminDashboard');
-      // history.push('/adminDashboard')
     }
     if(localStorage.getItem('token') && localStorage.getItem('role')==='student'){
       console.log("HERE_2");
       navigate('/studentDashboard');
-      // history.push('/Dashboard')
     }
   });
 
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-  // const {userToken,setuserToken} = useContext(tokenContext);
+
   function FormHeader(props){
     return <h2 id="headerTitle">{props.title}</h2>
   };
@@ -36,7 +34,7 @@ function StudentSignin() {
     <br />
     <span>
       Go to {" "}
-      <Link to="/AdminSignin">Student Sign In</Link>
+      <Link to="/AdminSignin">Admin Sign In</Link>
     </span>
     <br/>
     <p style={{color: "gray"}}>Made by Nipun and Vinayak</p>
@@ -56,11 +54,9 @@ function StudentSignin() {
       method: "POST",
       data: signin_data,
     }).then((res) => {
-      console.log("yo ",res);
-      if(res.data.status==201)
+      console.log(res);
+      if(res.status==201)
       {  
-        // setuserToken(res.data.data);
-        // console.log(userToken);
         console.log(res.data.data);
         localStorage.setItem("role", "student");
         localStorage.setItem("token",res.data.data);
@@ -82,17 +78,7 @@ function StudentSignin() {
     })
     console.log("Button Clicked");
   };
-  // useEffect(() => {
-  //   if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
-  //     console.log("HERE_1");
-  //     navigate('/adminDashboard');
-  //     // history.push('/adminDashboard')
-  //   }
-  //   if(localStorage.getItem('token') && localStorage.getItem('role')==='student'){
-  //     console.log("HERE_2");
-  //     // history.push('/Dashboard')
-  //   }
-  // });
+
   return (
     <div id="loginform">
       <FormHeader title="Student Sign in" />

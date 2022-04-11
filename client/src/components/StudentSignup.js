@@ -1,10 +1,21 @@
 import React , {useEffect,useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import './style2.css';
 // login reference: https://codepen.io/rares-lungescu/pen/KLbMvo
 
 function StudentSignup() {
+
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
+      navigate('/adminDashboard');
+    }
+    if(localStorage.getItem('token') && localStorage.getItem('role')==='student'){
+      navigate('/studentDashboard');
+    }
+  });
 
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");
@@ -15,29 +26,11 @@ function StudentSignup() {
     <h2 id="headerTitle">{props.title}</h2>
   );
   
-  
-  // const Form = props => (
-  //  <div>
-  //    <FormInput description="First Name" placeholder="Enter your first name" type="text" value = {firstName} setValue={setfirstName}/>
-  //    <FormInput description="Last Name" placeholder="Enter your last name" type="text" value = {lastName} setValue={setlastName}/>
-  //    <FormInput description="Email" placeholder="Enter your email id" type="text" value = {email} setValue={setemail}/>
-  //    <FormInput description="Password" placeholder="Enter your password" type="password" value = {password} setValue={setpassword}/>
-  //    {/* <FormButton title="Sign up" onClick = {props.onSubmit}/> */}
-  //  </div>
-  // );
-  
   const FormButton = props => (
   <div id="button" class="row">
     <button onClick={props.onSubmit}>{props.title}</button>
   </div>
   );
-  
-  // const FormInput = props => (
-  // <div class="row">
-  //   <label>{props.description}</label>
-  //   <input type={props.type} placeholder={props.placeholder} value = {props.value} onChange={(event)=> {props.setValue(event.target.value)}}/>
-  // </div>  
-  // );
   
   const OtherMethods = props => (
   <div id="alternativeLogin">

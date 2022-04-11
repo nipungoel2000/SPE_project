@@ -1,19 +1,12 @@
 import React, { useState, useContext, createContext, useEffect }  from "react";
-// import { tokenContext } from '../App';
-
 
 function StudentDashboard() {
-    // const {userToken,setuserToken} = useContext(tokenContext);
-    // useEffect(() => {
-    //     console.log("In use effect");
-    //     console.log(userToken);
-    // },[userToken]);
+
     function logout() 
     {
       if (window.confirm("Would you like to logout?")) {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
-        // localStorage.clear();
         window.location = "/studentSignin";
       }
     }

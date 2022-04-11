@@ -54,7 +54,7 @@ router.post("/signup", async(req, res) => {
 
 router.post('/signin',async (req,res) => {
     try{
-        // const {, password} = req.body;
+        
         const student = await userModel.findOne({email:req.body.email, type:"student"});
         if(!student)
         {   
@@ -71,7 +71,7 @@ router.post('/signin',async (req,res) => {
         }
         const token = student.generateAuthToken();
         console.log("Log in successful");
-        return res.json({status: 201, data: token, message: "Logged In successfully"});
+        return res.status(201).send({data: token, message: "Logged In successfully"});//res.json({status: 201, data: token, message: "Logged In successfully"});
     }catch(err){
         console.log(err);
         return res.status(500).send({message: "Internal Server Error"});
