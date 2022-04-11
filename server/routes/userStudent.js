@@ -71,7 +71,7 @@ router.post('/signin',async (req,res) => {
         }
         const token = student.generateAuthToken();
         console.log("Log in successful");
-        res.status(200).send({data: token, message: "Logged In successfully"});
+        return res.json({status: 201, data: token, message: "Logged In successfully"});
     }catch(err){
         console.log(err);
         return res.status(500).send({message: "Internal Server Error"});

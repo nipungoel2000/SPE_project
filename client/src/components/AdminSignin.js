@@ -69,10 +69,6 @@ function AdminSignin() {
 
         window.location="/adminDashboard";
       }
-      else if(res.data.status==401)
-      {
-        alert(res.data.message);
-      }
       else
       {
         alert("Admin login failed");
@@ -81,7 +77,7 @@ function AdminSignin() {
     .catch((err) => {
       console.log(err);
       // console.log(res.status);
-      alert("Admin login failed : "+err.message);
+      alert("Admin login failed : "+err.response.data.message);
     })
     console.log("Button Clicked");
   };
