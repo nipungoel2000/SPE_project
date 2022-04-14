@@ -22,6 +22,9 @@ app.use("/admin",userAdmin);
 const userStudent = require("./routes/userStudent");
 app.use("/student",userStudent);
 
+const slots = require("./routes/slots");
+    app.use("/slot",slots);    
+
 app.get('/hello',check,(req,res)=>{
     console.log("hello");
     res.send('hello world');
