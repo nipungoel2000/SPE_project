@@ -8,6 +8,7 @@ require("dotenv").config();
 const JWT_SECRET = process.env.JWTPRIVATEKEY;
 
 const {userModel,validateUser} = require("./../models/user.model");
+const { request } = require("express");
 
 //get student users
 router.get("/",async (req,res) => {
@@ -75,6 +76,61 @@ router.post('/signin',async (req,res) => {
     }catch(err){
         console.log(err);
         return res.status(500).send({message: "Internal Server Error"});
+    }
+});
+
+//get user data
+router.post("/getuserdata",async (req,res) => {
+    try{
+        const token=req.body.token;
+        jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
+            if(err){
+                // console.log(err.message);
+                res.json({message:err});
+            }
+            else{
+                // console.log(decodedToken);
+                let userdata=await userModel.findOne({_id:decodedToken._id});
+                res.json(userdata);
+            }
+        })
+    }
+    catch(err){
+        res.json({message: err});
+    }
+});
+
+// update user data
+router.post("/updateuserdata",async (req,res) => {
+    try{
+        const token=req.body.token;
+        const newdata=req.body.newdata;
+        // {
+        //     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjU3YjRmOTE5Y2NlMmJjNjRiMGE5NmEiLCJpYXQiOjE2NDk5MTgzMjEsImV4cCI6MTY1MDUyMzEyMX0.BF7UaQ5j1xO8efDX46pZSsxjXdDBqCKae81FMTEBmsk",
+        //     "newdata":{"firstName":"student19","lastName":"student28","roomNum":229}
+        // }
+        jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
+            if(err){
+                console.log(err.message);
+                res.json({message:err});
+            }
+            else{
+                await userModel.updateOne(
+                    { _id: decodedToken._id },
+                    { $set:
+                       {
+                            "firstName": newdata.firstName,
+                            "lastName": newdata.lastName,
+                            "roomNum": newdata.roomNum
+                       }
+                    }
+                )
+                res.json({message: "User data updated successfully"});
+            }
+        })
+    }
+    catch(err){
+        res.json({message: err});
     }
 });
 
