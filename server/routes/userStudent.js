@@ -42,8 +42,7 @@ router.post("/signup", async(req, res) => {
             lastName: req.body.lastName,
             email: req.body.email,
             password: await bcrypt.hash(req.body.password,11),
-            type: req.body.type,
-            roomNum: 300
+            type: req.body.type
         });
         const savedStudent = await newStudentUser.save();
         console.log("savedStudent" + `${savedStudent}`);
