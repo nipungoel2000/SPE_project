@@ -22,6 +22,10 @@ app.use("/admin",userAdmin);
 const userStudent = require("./routes/userStudent");
 app.use("/student",userStudent);
 
+
+const bookings = require("./routes/bookings");
+app.use("/booking",bookings);
+
 const slots = require("./routes/slots");
     app.use("/slot",slots);    
 

@@ -77,6 +77,7 @@ router.post('/fetch',async(req,res) => {
                 const email = userdata.email; 
                 const roomNum = userdata.roomNum;
                 var floorNum = Math.floor(roomNum/100); //Assuming roomNum is always of 3 digits
+                console.log(floorNum);
                 const availableSlots = await slotModel.find({floor:floorNum, status:"active"});
                 console.log(availableSlots);
                 // console.log("In else");
