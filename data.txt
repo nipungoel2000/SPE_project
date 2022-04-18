@@ -1,0 +1,13 @@
+Admins
+1. Email : admin1@gmail.com
+   Password : Admin@123
+2. Email : admin2@gmail.com
+   Password : Admin@123
+
+Student
+1. Email : stud1@gmail.com
+   Password : Stud@123
+   RoomNum : 523
+2. Email : stud2@gmail.com
+   Password : Stud@123
+   RoomNum : 300
