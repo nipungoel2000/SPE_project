@@ -5,8 +5,7 @@ import StudentSignin from "./components/StudentSignin";
 import StudentSignup from "./components/StudentSignup";
 import AdminDashboard from "./components/AdminDashboard";
 import StudentDashboard from "./components/StudentDashboard";
-import Page1 from "./components/page1";
-import AddSlot from "./components/AddSlot";
+import AdminProfile from "./components/AdminProfile";
 // import './App.css';
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
  // login reference: https://codepen.io/rares-lungescu/pen/KLbMvo
@@ -31,8 +30,7 @@ function App() {
         <Route path='/studentSignup' element={<StudentSignup/>}/>
         <Route path='/adminDashboard' element={<AdminDashboard/>}/>
         <Route path='/studentDashboard' element={<StudentDashboard/>}/>
-        <Route path='/page1' element={<Page1/>}/>
-        <Route path='/addslot' element={<AddSlot/>}/>
+        <Route path='/adminProfile' element={<AdminProfile/>}/>
         {/* <Route path='/adminDashboard' element={<tokenContext.Provider value={{userToken,setuserToken}}><AdminDashboard/></tokenContext.Provider>}/> */}
       </Routes>
     </Router>
