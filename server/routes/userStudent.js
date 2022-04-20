@@ -80,7 +80,7 @@ router.post('/signin',async (req,res) => {
 });
 
 //get user data
-router.post("/getuserdata",async (req,res) => {
+router.post("/getdata",async (req,res) => {
     try{
         const token=req.body.token;
         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
@@ -101,7 +101,7 @@ router.post("/getuserdata",async (req,res) => {
 });
 
 // update user data
-router.post("/updateuserdata",async (req,res) => {
+router.post("/updatedata",async (req,res) => {
     try{
         const token=req.body.token;
         const newdata=req.body.newdata;
@@ -125,7 +125,7 @@ router.post("/updateuserdata",async (req,res) => {
                        }
                     }
                 )
-                res.json({message: "User data updated successfully"});
+                res.json({message: "Student data updated successfully"});
             }
         })
     }

@@ -80,4 +80,57 @@ router.post('/signin',async (req,res) => {
     }
 });
 
+//get admin data
+router.post("/getdata",async (req,res) => {
+    try{
+        const token=req.body.token;
+        jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
+            if(err){
+                // console.log(err.message);
+                res.status(400).send({message:err});
+            }
+            else{
+                console.log(decodedToken);
+                let userdata=await userModel.findOne({_id:decodedToken._id});
+                res.status(201).send({"data":userdata});
+            }
+        })
+    }
+    catch(err){
+        res.status(500).send({message: err});
+    }
+});
+
+// update admin data
+router.post("/updatedata",async (req,res) => {
+    try{
+        const token=req.body.token;
+        const newdata=req.body.newdata;
+        // {
+        //     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjU3YjRmOTE5Y2NlMmJjNjRiMGE5NmEiLCJpYXQiOjE2NDk5MTgzMjEsImV4cCI6MTY1MDUyMzEyMX0.BF7UaQ5j1xO8efDX46pZSsxjXdDBqCKae81FMTEBmsk",
+        //     "newdata":{"firstName":"student19","lastName":"student28"}
+        // }
+        jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
+            if(err){
+                console.log(err.message);
+                res.json({message:err});
+            }
+            else{
+                await userModel.updateOne(
+                    { _id: decodedToken._id },
+                    { $set:
+                       {
+                            "firstName": newdata.firstName,
+                            "lastName": newdata.lastName,
+                       }
+                    }
+                )
+                res.json({message: "Admin data updated successfully"});
+            }
+        })
+    }
+    catch(err){
+        res.json({message: err});
+    }
+});
 module.exports = router;
