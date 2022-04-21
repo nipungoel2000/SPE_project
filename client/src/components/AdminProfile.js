@@ -82,9 +82,7 @@ function AdminProfile(){
     return (
         <>
         <NavigationBar/>
-        <Card border="dark" style={{width:'18rem'}}>
-        <Card.Header> Header</Card.Header>
-        <Card.Body>
+        <div className="border border-dark border-5 rounded-lg mb-5 mt-5" style={{marginLeft:"25%", marginRight:"25%", backgroundColor:"bisque"}}>
         <div className="d-flex justify-content-center align-items-center mt-5">
         <h1>Admin Profile Page</h1>
         </div>
@@ -107,13 +105,12 @@ function AdminProfile(){
         <Form.Control type="text" value={email} disabled/>
         </Form.Group>
 
-        <Button variant="primary" type="submit" onClick={saveDetails}>
+        <Button className="mb-5" variant="primary" type="submit" onClick={saveDetails}>
             Save Details
         </Button>
         </Form>
         </div>
-        </Card.Body>
-        </Card>
+        </div>
         </>
     )
 }
