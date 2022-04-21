@@ -92,7 +92,7 @@ router.post("/getdata",async (req,res) => {
             else{
                 console.log(decodedToken);
                 let userdata=await userModel.findOne({_id:decodedToken._id});
-                res.status(201).send({"data":userdata});
+                res.status(201).send({data:userdata});
             }
         })
     }
@@ -113,7 +113,7 @@ router.post("/updatedata",async (req,res) => {
         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
             if(err){
                 console.log(err.message);
-                res.json({message:err});
+                res.status(400).send({message:err});
             }
             else{
                 await userModel.updateOne(
@@ -125,12 +125,12 @@ router.post("/updatedata",async (req,res) => {
                        }
                     }
                 )
-                res.json({message: "Admin data updated successfully"});
+                res.status(201).send({message: "Admin data updated successfully"});
             }
         })
     }
     catch(err){
-        res.json({message: err});
+        res.status(400).send({message: err});
     }
 });
 module.exports = router;
