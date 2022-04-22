@@ -37,7 +37,7 @@ function AdminDashboard() {
           </Row>
           <Row>
             <Col md="auto">
-              <h3>You can add slots  <Link to="/addSlots">here</Link></h3>
+              <h3>You can add slots  <Link to="/addslot">here</Link></h3>
             </Col>
           </Row>
           <Row>

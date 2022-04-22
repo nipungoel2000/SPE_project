@@ -1,42 +1,172 @@
 import React, { useState, useContext, createContext, useEffect}  from "react";
+import "flatpickr/dist/themes/material_green.css";
 import 'bootstrap/dist/css/bootstrap.css';
+import Flatpickr from "react-flatpickr";
 // import { tokenContext } from '../App';
 import './test.css'
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {Form,Button} from 'react-bootstrap';
-const options = [
-    { value: 'flavor', label: 'flavor' },
-    { value: 'yummy', label: 'yummy' },
-    { value: 'red', label: 'red' },
-    { value: 'green', label: 'green' },
-    { value: 'yellow', label: 'yellow' },
-];
+import NavigationBar from "./AdminNavigationBar";
+import axios from "axios";
 function AddSlot() {
+
+    const navigate = useNavigate();
+    const [date, setdate] = useState("");
+    const [time, settime] = useState("");
+    var date_str;
+    var stime_str;
+    var etime_str;
+    const [floorNum,setfloorNum] = useState("");
+    const [numTeams,setnumTeams] = useState("");
+
+    useEffect(() => {
+        // console.log("here");
+      if(!localStorage.getItem('token')){
+        navigate('/adminSignin');
+      }
+      if(localStorage.getItem('token') && localStorage.getItem('role')==='student'){
+        navigate('/studentDashboard');
+      }
+    });
+    async function submit(e)
+    {
+      e.preventDefault();
+      if(date.date)
+      {
+          let month=date.date[0].getMonth();
+          month=month+1;
+          date_str=date.date[0].getDate()+"-"+month+"-"+date.date[0].getFullYear()
+          // 22-4-2022
+          // console.log("yo",date_str);
+      }
+      if(time.time)
+      {
+          let hour=time.time[0].getHours();
+          let minute=time.time[0].getMinutes();
+          stime_str=hour+"."+minute;
+          minute=(minute+30)%60;
+          if(minute==0)
+          {
+              hour=hour+1;
+          }
+          etime_str=hour+"."+minute;
+          // 12.0 12.30
+          // console.log("yo",stime_str,etime_str);
+      }
+      if(!floorNum)
+      {
+        alert("Enter floor number");
+      }
+      else if(floorNum<=0 || floorNum>=8)
+      {
+          alert("Enter valid floor number between 1 and 7");
+      }
+      else if(!numTeams)
+      {
+          alert("Enter Number of Housekeeping teams");
+      }
+      else if(!date_str)
+      {
+          alert("Select date");
+      }
+      else if(!stime_str && !etime_str)
+      {
+          alert("Select slot start time");
+      }
+      else
+      {
+            let slot_data = {date:date_str,startTime:stime_str,endTime:etime_str,floor:floorNum,teams:numTeams};
+            await axios({
+                url: "http://localhost:3001/slot/add",
+                method: "POST",
+                data: slot_data,
+            }).then((res) => {
+                console.log(res);
+                if(res.status==201)
+                {  
+                alert("Slot added successfully");
+                window.location="/addslot";
+                }
+                else
+                {   
+                alert("Internal Server Error : " + res.status);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                // console.log(res.status);
+                alert("Internal Server Error : "+err.response.data.message);
+            })
+      }
+    }
+
     return(
         <>
+        <NavigationBar/>
+        <div className="d-flex justify-content-center align-items-center mt-5 pt-5">
+            <h1>Add Slot for booking</h1>
+        </div>
+        <div className="d-flex justify-content-center align-items-center mt-4"> 
             <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="time" placeholder="Enter email" />
-                    <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                    </Form.Text>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
-                </Form.Group>
-                <Form.Select aria-label="Default select example">
+
+                {/* <Form.Select aria-label="Default select example">
                     {options.map(({ value, label }, index) => <option value={value} >{label}</option>)}
-                </Form.Select>
-                <Button variant="primary" type="submit">
+                </Form.Select> */}
+
+                <Form.Group className="mb-4" controlId="formFloorNum">
+                    <Form.Label>Floor Number</Form.Label>
+                    <Form.Control type="number" placeholder="Enter Floor number" min={1} max={7} value={floorNum} onChange={(event)=> {setfloorNum(event.target.value)}}/>
+                </Form.Group>
+
+                <Form.Group className="mb-4" controlId="formNumteams">
+                    <Form.Label>Number of Housekeeping teams</Form.Label>
+                    <Form.Control type="number" placeholder="Enter number" min={1} value={numTeams} onChange={(event)=> {setnumTeams(event.target.value)}}/>
+                </Form.Group>
+
+                <Form.Group className="mb-4 mt-3" controlId="formDate">
+                    <Form.Label>Date</Form.Label>
+                    <Flatpickr
+                        date-enable-time
+                        value={date[0]}
+                        options={{dateFormat: "d-m-Y",minDate:"today",maxDate:new Date().fp_incr(6)}}
+                        placeholder="Select Date"
+                        style={{width:"100%"}}
+                        onChange={date => {
+                            // console.log("yo ",date[0]);
+                            setdate({ date});
+                          }}          
+                    />
+                </Form.Group>
+
+                <Form.Group className="mb-4 mt-3" controlId="formTime">
+                    <Form.Label>Slot Start Time</Form.Label>
+                    <Flatpickr
+                        options={{ enableTime: true,
+                            noCalendar: true,time_24hr: true,minuteIncrement:"30" }}
+                        value={time[0]}
+                        placeholder="Select time"
+                        style={{width:"100%"}}
+                        onChange={time => {
+                            // console.log("yo ",date[0]);
+                            settime({ time});
+                          }}      
+                        // onChange={([date]) => {
+                        // this.setState({ date });
+                        // }}
+                    />
+                    <p style={{color:"grey"}}>
+                        Note: Slot duration is 30 minutes
+                    </p>
+                </Form.Group>
+
+                
+
+                <Button className="mb-5" variant="primary" type="submit" onClick={submit}>
                     Submit
                 </Button>
             </Form>
-        </>
+        </div>
+    </>
     );
 }
 export default AddSlot;

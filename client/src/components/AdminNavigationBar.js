@@ -23,7 +23,7 @@ function NavigationBar(){
           <Nav className="me-auto">
             <Nav.Link href="/adminDashboard">Dashboard</Nav.Link>
             {/* <Nav.Link href="/page1">Page1</Nav.Link> */}
-            <Nav.Link href="#pricing">Add Slots</Nav.Link>
+            <Nav.Link href="/addslot">Add Slots</Nav.Link>
             <Nav.Link href="#pricing">View Bookings</Nav.Link>
             {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

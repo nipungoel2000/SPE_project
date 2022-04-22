@@ -27,6 +27,7 @@ router.post('/add',async(req,res) =>
         console.log(req.body);
         //TOKEN CHECK(IF TO BE DONE)
         //TO DO : MULTIPLY BY TEAM SIZE
+        var teams=req.body.teams;
         const filter = {date : req.body.date, startTime : req.body.startTime, endTime : req.body.endTime, floor : req.body.floor};
         const slot = await slotModel.findOne(filter);    
         if(slot)
@@ -35,19 +36,20 @@ router.post('/add',async(req,res) =>
             var curCnt = slot["totalBookings"];
             //update totalBookings and  .. increment by numBookings_slot for half an hour window
             //TO DO : MULTIPLY BY TEAM SIZE
-            const updatedSlot = await slotModel.updateOne(filter,{$set:{totalBookings: (curCnt + numBookings_slot)}});
+            const updatedSlot = await slotModel.updateOne(filter,{$set:{totalBookings: (curCnt + teams*numBookings_slot)}});
             console.log(updatedSlot);
             return res.status(201).send({message: "Slot added successfully" });
         }
         else
         {
+            var count=teams*numBookings_slot
             const newSlot = new slotModel({
                 date: req.body.date,
                 startTime: req.body.startTime,
                 endTime: req.body.endTime,
                 floor: req.body.floor,
                 status : "active",
-                totalBookings : numBookings_slot,
+                totalBookings : count,
                 bookingsMade : 0,
             });
             const savedSlot = await newSlot.save();
