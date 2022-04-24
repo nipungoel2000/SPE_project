@@ -1,0 +1,123 @@
+import React,{useEffect,useState} from "react";
+import {Link, useNavigate} from 'react-router-dom';
+import NavigationBar from './StudentNavigationBar';
+import {Form, Button, Card} from "react-bootstrap";
+import axios from "axios";
+// import "./profile.css";
+
+function StudentProfile(){
+    const navigate = useNavigate();
+    const [firstName, setfirstName] = useState("");
+    const [lastName, setlastName] = useState("");
+    const [email,setemail] = useState("");
+    const [roomNum,setroomNum] = useState("");
+    
+    //Will be called only once when the page renders
+    useEffect(() => {
+        console.log("here");
+      if(!localStorage.getItem('token')){
+        navigate('/studentSignin');
+      }
+      if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
+        navigate('/adminProfile');
+      }
+    });
+
+    useEffect(()=>{
+        if(localStorage.getItem('token') && localStorage.getItem('role')==='student')
+        {
+        axios({
+            url: "http://localhost:3001/student/getdata",
+            method: "POST",
+            data: {token:localStorage.getItem('token')},
+          }).then((res) => {
+            console.log(res);
+            if(res.status==201)
+            {  
+              console.log(res.data.data);
+              setfirstName(res.data.data.firstName);
+              setlastName(res.data.data.lastName);
+              setemail(res.data.data.email);
+              setroomNum(res.data.data.roomNum);
+            }
+            else
+            {   
+            //   console.log(res.data.data);
+              alert("Internal Server Error : " + res.status);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            // console.log(res.status);
+            alert("Internal Server Error : "+err.response.data.message);
+          })
+        }
+    },[])
+    async function saveDetails(e)
+    {
+      e.preventDefault();
+      console.log(firstName);
+      console.log(lastName);
+      let details = {token:localStorage.getItem('token'),newdata:{firstName:firstName, lastName:lastName, roomNum:roomNum}};
+      await axios({
+        url: "http://localhost:3001/student/updatedata",
+        method: "POST",
+        data: details,
+      }).then((res) => {
+        console.log(res);
+        if(res.status==201)
+        {  
+          alert("Student Details Updated Successfully");
+          window.location="/studentProfile";
+        }
+        else
+        {   
+         alert("Internal Server Error : " + res.status);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        // console.log(res.status);
+        alert("Internal Server Error : "+err.response.data.message);
+      })
+    }
+    return (
+        <>
+        <NavigationBar/>
+        <div className="border border-dark border-5 rounded-lg mb-4 mt-4" style={{marginLeft:"25%", marginRight:"25%", backgroundColor:"silver"}}>
+        <div className="d-flex justify-content-center align-items-center mt-4">
+        <h1>Student Profile Page</h1>
+        </div>
+        <div className="d-flex justify-content-center align-items-center mt-4">
+        <Form>
+        <Form.Group className="mb-3" controlId="formFirstName">
+        <Form.Label>First Name</Form.Label>
+        <Form.Control type="text" value={firstName} onChange={(event)=> {setfirstName(event.target.value)}}/>
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formLastName">
+        <Form.Label>Last Name</Form.Label>
+        <Form.Control type="text" value={lastName} onChange={(event)=> { setlastName(event.target.value)}}/>
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formEmail">
+        <Form.Label>Email id</Form.Label>
+        <Form.Control type="text" value={email} disabled/>
+        </Form.Group>
+        
+        <Form.Group className="mb-3" controlId="formroomNum">
+        <Form.Label>Room Number</Form.Label>
+        <Form.Control type="text" value={roomNum} onChange={(event)=> { setroomNum(event.target.value)}}/>
+        </Form.Group>
+
+        <Button className="mb-5" variant="primary" type="submit" onClick={saveDetails}>
+            Save Details
+        </Button>
+        </Form>
+        </div>
+        </div>
+        </>
+    )
+}
+
+export default StudentProfile;

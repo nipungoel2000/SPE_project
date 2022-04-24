@@ -1,7 +1,7 @@
 import React, { useState, useContext, createContext, useEffect}  from "react";
+import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import 'bootstrap/dist/css/bootstrap.css';
-import Flatpickr from "react-flatpickr";
 // import { tokenContext } from '../App';
 import './test.css'
 import {useNavigate} from 'react-router-dom';
@@ -103,7 +103,7 @@ function AddSlot() {
     return(
         <>
         <NavigationBar/>
-        <div className="d-flex justify-content-center align-items-center mt-5 pt-5">
+        <div className="d-flex justify-content-center align-items-center mt-5 pt-2">
             <h1>Add Slot for booking</h1>
         </div>
         <div className="d-flex justify-content-center align-items-center mt-4"> 

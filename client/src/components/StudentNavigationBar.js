@@ -10,7 +10,7 @@ function NavigationBar(){
         localStorage.removeItem('token');
         localStorage.removeItem('role');
         // localStorage.clear();
-        window.location = "/adminSignin";
+        window.location = "/studentSignin";
       }
     }
     return(
@@ -21,20 +21,13 @@ function NavigationBar(){
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/adminDashboard">Dashboard</Nav.Link>
-            {/* <Nav.Link href="/page1">Page1</Nav.Link> */}
-            <Nav.Link href="/addslot">Add Slots</Nav.Link>
-            <Nav.Link href="#pricing">View All Bookings</Nav.Link>
-            {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-            </NavDropdown> */}
+            <Nav.Link href="/studentDashboard">Dashboard</Nav.Link>
+            <Nav.Link href="#prcing">Make a Booking</Nav.Link>
+            <Nav.Link href="#pricing">View Booking</Nav.Link>
+            <Nav.Link href="#pricing">Delete Booking</Nav.Link>
           </Nav>
           <Nav>
-          <Nav.Link href="/adminProfile">Your Profile &nbsp;&nbsp;&nbsp;&nbsp;</Nav.Link>
+          <Nav.Link href="/studentProfile">Your Profile &nbsp;&nbsp;&nbsp;&nbsp;</Nav.Link>
             <Button variant="light" onClick={logout} sz="lg">
               Logout
             </Button>

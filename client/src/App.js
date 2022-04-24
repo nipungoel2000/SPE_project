@@ -7,6 +7,7 @@ import AdminDashboard from "./components/AdminDashboard";
 import StudentDashboard from "./components/StudentDashboard";
 import AdminProfile from "./components/AdminProfile";
 import AddSlot from "./components/AddSlot";
+import StudentProfile from "./components/StudentProfile";
 // import './App.css';
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
  // login reference: https://codepen.io/rares-lungescu/pen/KLbMvo
@@ -33,6 +34,7 @@ function App() {
         <Route path='/studentDashboard' element={<StudentDashboard/>}/>
         <Route path='/adminProfile' element={<AdminProfile/>}/>
         <Route path="/addslot" element={<AddSlot/>}/>
+        <Route path="/studentProfile" element={<StudentProfile/>}/>
         {/* <Route path='/adminDashboard' element={<tokenContext.Provider value={{userToken,setuserToken}}><AdminDashboard/></tokenContext.Provider>}/> */}
       </Routes>
     </Router>

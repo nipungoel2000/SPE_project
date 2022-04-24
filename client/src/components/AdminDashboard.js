@@ -42,7 +42,7 @@ function AdminDashboard() {
           </Row>
           <Row>
             <Col md="auto"> 
-              <h3>or view <Link to="/view">user bookings</Link></h3>
+              <h3>or view <Link to="/view">all bookings</Link></h3>
             </Col>
           </Row>
         </div>
