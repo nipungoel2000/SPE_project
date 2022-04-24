@@ -77,7 +77,7 @@ function AdminSignin() {
     .catch((err) => {
       console.log(err);
       // console.log(res.status);
-      alert("Admin login failed ");
+      alert("Internal Server Error ");
     })
     console.log("Button Clicked");
   };

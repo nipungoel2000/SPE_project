@@ -35,23 +35,48 @@ function AddSlot() {
       {
           let month=date.date[0].getMonth();
           month=month+1;
-          date_str=date.date[0].getDate()+"-"+month+"-"+date.date[0].getFullYear()
-          // 22-4-2022
-          // console.log("yo",date_str);
+          date_str=date.date[0].getDate()+"-"
+          if(date.date[0].getDate()<10)
+          {
+              date_str='0'+date_str;
+          }
+          if(month<10)
+          {
+              date_str=date_str+'0';
+          }
+          date_str=date_str+month+"-"+date.date[0].getFullYear();
+          // 22-04-2022
+        //   console.log("yo",date_str);
       }
       if(time.time)
       {
           let hour=time.time[0].getHours();
           let minute=time.time[0].getMinutes();
           stime_str=hour+"."+minute;
+          if(hour<10)
+          {
+            stime_str='0'+stime_str;
+          }
+          if(minute==0)
+          {
+            stime_str=stime_str+'0';
+          }
           minute=(minute+30)%60;
           if(minute==0)
           {
               hour=hour+1;
           }
           etime_str=hour+"."+minute;
-          // 12.0 12.30
-          // console.log("yo",stime_str,etime_str);
+          if(hour<10)
+          {
+            etime_str='0'+etime_str;
+          }
+          if(minute==0)
+          {
+            etime_str=etime_str+'0';
+          }
+          // 12.00 12.30
+        //   console.log("yo",stime_str,etime_str);
       }
       if(!floorNum)
       {
@@ -128,7 +153,7 @@ function AddSlot() {
                     <Flatpickr
                         date-enable-time
                         value={date[0]}
-                        options={{dateFormat: "d-m-Y",minDate:"today",maxDate:new Date().fp_incr(6)}}
+                        options={{dateFormat: "d-m-Y",maxDate:new Date().fp_incr(6)}}
                         placeholder="Select Date"
                         style={{width:"100%"}}
                         onChange={date => {

@@ -74,7 +74,7 @@ function StudentSignin() {
     .catch((err) => {
       console.log(err);
       // console.log(res.status);
-      alert("Student login failed ");
+      alert("Internal Server Error ");
     })
     console.log("Button Clicked");
   };

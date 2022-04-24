@@ -22,7 +22,7 @@ function NavigationBar(){
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/studentDashboard">Dashboard</Nav.Link>
-            <Nav.Link href="#prcing">Make a Booking</Nav.Link>
+            <Nav.Link href="/makebooking">Make a Booking</Nav.Link>
             <Nav.Link href="#pricing">View Booking</Nav.Link>
             <Nav.Link href="#pricing">Delete Booking</Nav.Link>
           </Nav>

@@ -10,6 +10,7 @@ import AddSlot from "./components/AddSlot";
 import StudentProfile from "./components/StudentProfile";
 // import './App.css';
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+import MakeBooking from "./components/MakeBooking";
  // login reference: https://codepen.io/rares-lungescu/pen/KLbMvo
 // export const tokenContext = React.createContext();
 
@@ -35,6 +36,7 @@ function App() {
         <Route path='/adminProfile' element={<AdminProfile/>}/>
         <Route path="/addslot" element={<AddSlot/>}/>
         <Route path="/studentProfile" element={<StudentProfile/>}/>
+        <Route path="/makebooking" element={<MakeBooking/>}/>
         {/* <Route path='/adminDashboard' element={<tokenContext.Provider value={{userToken,setuserToken}}><AdminDashboard/></tokenContext.Provider>}/> */}
       </Routes>
     </Router>
