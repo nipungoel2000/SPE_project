@@ -47,7 +47,7 @@ function AdminProfile(){
           .catch((err) => {
             console.log(err);
             // console.log(res.status);
-            alert("Internal Server Error : "+err.response.data.message);
+            alert("Internal Server Error ");
           })
         }
     },[])
@@ -76,7 +76,7 @@ function AdminProfile(){
       .catch((err) => {
         console.log(err);
         // console.log(res.status);
-        alert("Internal Server Error : "+err.response.data.message);
+        alert("Internal Server Error ");
       })
     }
     return (

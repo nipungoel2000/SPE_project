@@ -49,13 +49,20 @@ function StudentProfile(){
           .catch((err) => {
             console.log(err);
             // console.log(res.status);
-            alert("Internal Server Error : "+err.response.data.message);
+            alert("Internal Server Error");
           })
         }
     },[])
     async function saveDetails(e)
     {
       e.preventDefault();
+      if(!firstName)
+        alert("First Name cannot be empty");
+      else if(!lastName)
+        alert("Last Name cannot be empty");
+      else if(roomNum && (roomNum<=100 || roomNum>780))
+        alert("Please enter valid room number");
+      else{
       console.log(firstName);
       console.log(lastName);
       let details = {token:localStorage.getItem('token'),newdata:{firstName:firstName, lastName:lastName, roomNum:roomNum}};
@@ -78,8 +85,9 @@ function StudentProfile(){
       .catch((err) => {
         console.log(err);
         // console.log(res.status);
-        alert("Internal Server Error : "+err.response.data.message);
+        alert("Internal Server Error");
       })
+    }
     }
     return (
         <>
@@ -107,7 +115,7 @@ function StudentProfile(){
         
         <Form.Group className="mb-3" controlId="formroomNum">
         <Form.Label>Room Number</Form.Label>
-        <Form.Control type="text" value={roomNum} onChange={(event)=> { setroomNum(event.target.value)}}/>
+        <Form.Control type="number" min={101} max={780} value={roomNum} onChange={(event)=> { setroomNum(event.target.value)}}/>
         </Form.Group>
 
         <Button className="mb-5" variant="primary" type="submit" onClick={saveDetails}>
