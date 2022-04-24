@@ -29,14 +29,14 @@ router.post("/make",async (req,res) =>{
                 const roomNum=userdata.roomNum;
                 if(roomNum==null)
                 {
-                    return res.status(400).send({message: "Booking failed, please add your room number on the user profile page first"});
+                    return res.status(401).send({message: "Booking failed, please add your room number on the user profile page first"});
                 }
                 const filter_booking = {email: email, status: "active"};
                 const userslot=await bookingModel.findOne(filter_booking);
                 console.log(userslot);
                 if(userslot)
                 {
-                    return res.status(400).send({message: "Active booking already exists"});
+                    return res.status(401).send({message: "Active booking already exists"});
                 }
                 const floor=Math.floor(roomNum/100);
                 const filter = {date : req.body.date, startTime : req.body.startTime, endTime : req.body.endTime, floor : floor,status: "active"};

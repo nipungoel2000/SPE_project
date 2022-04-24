@@ -153,7 +153,7 @@ function AddSlot() {
                     <Flatpickr
                         date-enable-time
                         value={date[0]}
-                        options={{dateFormat: "d-m-Y",maxDate:new Date().fp_incr(6)}}
+                        options={{dateFormat: "d-m-Y",minDate:"today",maxDate:new Date().fp_incr(6)}}
                         placeholder="Select Date"
                         style={{width:"100%"}}
                         onChange={date => {
