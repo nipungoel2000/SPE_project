@@ -63,7 +63,7 @@ router.post('/add',async(req,res) =>
     }
 });
 
-//FETCH AVAILABLE SLOTS FOR A USER BY ITS TOKEN
+//FETCH AVAILABLE SLOTS FOR A USER BY ITS TOKEN AND DATE
 router.post('/fetch',async(req,res) => {
     try {
         const token=req.body.token;
@@ -80,10 +80,25 @@ router.post('/fetch',async(req,res) => {
                 const roomNum = userdata.roomNum;
                 var floorNum = Math.floor(roomNum/100); //Assuming roomNum is always of 3 digits
                 console.log(floorNum);
-                const availableSlots = await slotModel.find({floor:floorNum, status:"active"});
-                console.log(availableSlots);
-                // console.log("In else");
-                res.status(200).send({availableSlots:availableSlots});
+                const availableSlots = await slotModel.find({floor:floorNum, status:"active", date:req.body.date});
+                // console.log(availableSlots[0].startTime);
+                var timeSlotlst = [];
+                for(let i=0; i<availableSlots.length; i++)
+                {
+                    if(availableSlots[i].totalBookings>availableSlots[i].bookingsMade)
+                    {
+                        var slot = availableSlots[i].startTime + " - " + availableSlots[i].endTime;
+                        timeSlotlst.push(slot);
+                    }
+                }
+                timeSlotlst.sort();
+                var timeSlots = []
+                for(var i= 0; i<timeSlotlst.length; i++)
+                {
+                    timeSlots.push({value : timeSlotlst[i]});
+                }
+                console.log(timeSlots);
+                res.status(200).send({availableSlots : timeSlots});
             }
         })
     } catch (error) {

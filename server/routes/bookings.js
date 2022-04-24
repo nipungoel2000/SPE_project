@@ -29,7 +29,7 @@ router.post("/make",async (req,res) =>{
                 const roomNum=userdata.roomNum;
                 if(roomNum==null)
                 {
-                    return res.status(400).send({message: "Booking failed, room number not provided"});
+                    return res.status(400).send({message: "Booking failed, please add your room number on the user profile page first"});
                 }
                 const filter_booking = {email: email, status: "active"};
                 const userslot=await bookingModel.findOne(filter_booking);
@@ -66,7 +66,8 @@ router.post("/make",async (req,res) =>{
                         });
                         const savedBooking = await newBooking.save();
                         console.log("savedBooking"+`${savedBooking}`);
-                        return res.status(201).send({message : "Booking created successfully" });
+                        // console.log(savedBooking._id);
+                        return res.status(201).send({message : "Booking created successfully", bookingId : savedBooking._id});
                     }
                     else
                     {
@@ -81,7 +82,41 @@ router.post("/make",async (req,res) =>{
         })
     }
     catch(err){
-        res.json({message: err});
+        res.status(500).send({message: err});
     }
 });
+
+//req.body(token)
+router.post("/fetchbytoken",async (req,res) => 
+{
+    try{
+        const token=req.body.token;
+        jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
+            if(err){
+                res.status(400).send({message:err});
+            }
+            else{
+                // console.log(decodedToken);
+                let userdata=await userModel.findOne({_id:decodedToken._id});
+                const email=userdata.email;
+                let bookingData = await bookingModel.findOne({email:email, status:"active"});
+                res.status(201).send({bookingData:bookingData});
+            }
+        })        
+    }
+    catch(err){
+        res.status(500).send({message:err});
+    }
+});
+
+//returns all active bookings in sorted order
+// router.get("/fetchall",async (req,res) =>
+// {
+//     try{
+
+//     }
+//     catch(err){
+//         res.status(500).send({message:err});
+//     }  
+// })
 module.exports = router;

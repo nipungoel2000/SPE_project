@@ -9,7 +9,7 @@ const JWT_SECRET = process.env.JWTPRIVATEKEY;
 
 const {userModel,validateUser} = require("./../models/user.model");
 const { request } = require("express");
-
+const bookingModel = require("./../models/booking.model");
 //get student users
 router.get("/",async (req,res) => {
     try{
@@ -115,22 +115,33 @@ router.post("/updatedata",async (req,res) => {
                 res.status(400).send({message:err});
             }
             else{
-                await userModel.updateOne(
-                    { _id: decodedToken._id },
-                    { $set:
-                       {
-                            "firstName": newdata.firstName,
-                            "lastName": newdata.lastName,
-                            "roomNum": newdata.roomNum
-                       }
-                    }
-                )
-                res.status(201).send({message: "Student data updated successfully"});
+                console.log(decodedToken);
+                const userData = await userModel.findOne({_id:decodedToken});
+                const userBooking = await bookingModel.findOne({email:userData.email, status:"active"});
+                console.log(userData);
+                console.log(userBooking);
+                if(userData.roomNum == newdata.roomNum || userBooking==null)
+                {
+                    await userModel.updateOne(
+                        { _id: decodedToken._id },
+                        { $set:
+                           {
+                                "firstName": newdata.firstName,
+                                "lastName": newdata.lastName,
+                                "roomNum": newdata.roomNum
+                           }
+                        }
+                    )
+                    res.status(201).send({message: "Student data updated successfully"});
+                }
+                else{
+                    res.status(400).send({message: "Cannot update room number because of your existing booking"});
+                }
             }
         })
     }
     catch(err){
-        res.status(400).send({message: err});
+        res.status(500).send({message: err});
     }
 });
 
