@@ -100,7 +100,9 @@ router.post("/fetchbytoken",async (req,res) =>
                 let userdata=await userModel.findOne({_id:decodedToken._id});
                 const email=userdata.email;
                 let bookingData = await bookingModel.findOne({email:email, status:"active"});
-                res.status(201).send({bookingData:bookingData});
+                let bookings=[];
+                bookings.push(bookingData);
+                res.status(201).send({bookingData:bookings});
             }
         })        
     }
@@ -108,6 +110,51 @@ router.post("/fetchbytoken",async (req,res) =>
         res.status(500).send({message:err});
     }
 });
+
+// req.body(token)
+// url + id
+router.delete('/delete/:id',async (req,res)=>{
+    try{
+        const token=req.body.token;
+        jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
+            if(err){
+                res.status(400).send({message:err});
+            }
+            else{
+                try{
+                    let bookingData = await bookingModel.findOne({_id:req.params.id});
+                    const roomNum=bookingData.roomNum;
+                    const floor=Math.floor(roomNum/100);
+                    const filter = {date : bookingData.date, startTime : bookingData.startTime, endTime : bookingData.endTime, floor : floor,status: "active"};
+                    const slot=await slotModel.findOne(filter);
+                    if(slot)
+                    {
+                        const new_bookingsMade=slot.bookingsMade-1;
+                        console.log(new_bookingsMade);
+                        //  
+                        await slotModel.updateOne(
+                            { _id: slot._id },
+                            { $set:
+                            {
+                                    "bookingsMade": new_bookingsMade
+                            }
+                            }
+                        )
+                        const deleteBooking = await bookingModel.deleteOne({_id:req.params.id});
+                        res.status(201).send({deletedBooking: deleteBooking});
+                    }
+                  }catch(err){
+                    res.json({message:err})
+                    console.log("here");
+                  }
+            }
+        })        
+    }
+    catch(err){
+        res.status(500).send({message:err});
+    }
+    
+  })
 
 //returns all active bookings in custom sorted order as per argument in API
 //req.body(sortby) ---> sortby:RoomNumber or Time

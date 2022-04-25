@@ -19,7 +19,7 @@ function MakeBooking(){
     useEffect(() => {
         console.log("here");
       if(!localStorage.getItem('token')){
-        navigate('/adminSignin');
+        navigate('/studentSignin');
       }
       if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
         navigate('/adminDashboard');
@@ -33,7 +33,7 @@ function MakeBooking(){
             data: user_data,
         }).then((res) => {
             console.log(res.data.bookingData);
-            if(res.data.bookingData)
+            if(res.data.bookingData!=0)
             {  
                 console.log(res);
                 setflag(1);
