@@ -140,5 +140,5 @@ async function job(datetime){
         console.log("message : ", err);
     }
 }
-cron.schedule('0 1,31 * * * *', () => {job(new Date())});
+// cron.schedule('0 1,31 * * * *', () => {job(new Date())});
 // job();

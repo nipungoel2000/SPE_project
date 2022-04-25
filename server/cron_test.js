@@ -79,10 +79,48 @@ async function cronjob(){
     }
 }
 
-cronjob();
+// cronjob();
 // console.log(datetime.toLocaleTimeString().slice(0,));
 // console.log(datetime.toISOString().slice(0,10));
 // async function()
 // {
 
 // }
+function sortBy(field1, field2, field3)
+{
+    return function(a,b){
+        if(a[field1]<b[field1])
+            return -1;
+        else if(a[field1]>b[field1])
+            return 1;
+        else
+        {
+            if(a[field2]<b[field2])
+                return -1;
+            else if(a[field2]>b[field2])
+                return 1;
+            else
+            {
+                if(a[field3]<b[field3])
+                    return -1;
+                else if(a[field3]>b[field3])
+                    return 1;    
+                else
+                    return 0;            
+            }
+        }
+    }
+}
+function testSort(sortby){
+    var activeBookingslst = []
+    // for(var i = 0; i<activeBookings.length; i++)
+    // {
+    //     var curBooking = {"BookingId" : activeBookings[i]._id, "email" : activeBookings[i].email, "roomNum" : activeBookings[i].roomNum, "date" : activeBookings[i].date, "time" : activeBookings[i].startTime};
+    //     activeBookingslst.push(curBooking);
+    // }
+    activeBookingslst.push({"BookingId" : activeBookings[i]._id, "email" : activeBookings[i].email, "roomNum" : activeBookings[i].roomNum, "date" : activeBookings[i].date, "time" : activeBookings[i].startTime})
+    if(sortby == "RoomNumber")
+        activeBookingslst.sort(sortBy("roomNum","date","time"));
+    else
+        activeBookingslst.sort(sortBy("date","time","roomNum"));
+}

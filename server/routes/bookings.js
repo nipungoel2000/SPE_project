@@ -109,14 +109,55 @@ router.post("/fetchbytoken",async (req,res) =>
     }
 });
 
-//returns all active bookings in sorted order
-// router.get("/fetchall",async (req,res) =>
-// {
-//     try{
+//returns all active bookings in custom sorted order as per argument in API
+//req.body(sortby) ---> sortby:RoomNumber or Time
+router.post("/fetchall",async (req,res) =>
+{
+    try{
+        const activeBookings = await bookingModel.find({status:"active"});
+        var activeBookingslst = []
+        for(var i = 0; i<activeBookings.length; i++)
+        {
+            var curBooking = {"BookingId" : activeBookings[i]._id, "email" : activeBookings[i].email, "roomNum" : activeBookings[i].roomNum, "date" : activeBookings[i].date, "time" : activeBookings[i].startTime};
+            activeBookingslst.push(curBooking);
+        }
+        if(req.body.sortby == "RoomNumber")
+        {   
+            // console.log("Sorting by room number");
+            activeBookingslst.sort(sortBy("roomNum","date","time"));
+        }
+        else
+            activeBookingslst.sort(sortBy("date","time","roomNum"));
+        return res.status(201).send({bookingsLst : activeBookingslst});
+    }
+    catch(err){
+        res.status(500).send({message:err});
+    }  
+});
+function sortBy(field1, field2, field3)
+{
+    return function(a,b){
+        if(a[field1]<b[field1])
+            return -1;
+        else if(a[field1]>b[field1])
+            return 1;
+        else
+        {
+            if(a[field2]<b[field2])
+                return -1;
+            else if(a[field2]>b[field2])
+                return 1;
+            else
+            {
+                if(a[field3]<b[field3])
+                    return -1;
+                else if(a[field3]>b[field3])
+                    return 1;    
+                else
+                    return 0;            
+            }
+        }
+    }
+}
 
-//     }
-//     catch(err){
-//         res.status(500).send({message:err});
-//     }  
-// })
 module.exports = router;

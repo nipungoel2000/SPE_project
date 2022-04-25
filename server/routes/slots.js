@@ -79,8 +79,8 @@ router.post('/fetch',async(req,res) => {
                 const email = userdata.email; 
                 const roomNum = userdata.roomNum;
                 var floorNum = Math.floor(roomNum/100); //Assuming roomNum is always of 3 digits
-                console.log(floorNum);
-                console.log(req.body.date);
+                // console.log(floorNum);
+                // console.log(req.body.date);
                 const availableSlots = await slotModel.find({floor:floorNum, status:"active", date:req.body.date});
                 // console.log(availableSlots[0].startTime);
                 var timeSlotlst = [];
