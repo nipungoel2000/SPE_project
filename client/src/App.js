@@ -12,6 +12,7 @@ import StudentProfile from "./components/StudentProfile";
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import MakeBooking from "./components/MakeBooking";
 import ViewBooking from "./components/ViewBooking";
+import AdminViewBookings from "./components/AdminViewBookings";
  // login reference: https://codepen.io/rares-lungescu/pen/KLbMvo
 // export const tokenContext = React.createContext();
 
@@ -39,6 +40,7 @@ function App() {
         <Route path="/studentProfile" element={<StudentProfile/>}/>
         <Route path="/makebooking" element={<MakeBooking/>}/>
         <Route path="/viewbooking" element={<ViewBooking/>}/>
+        <Route path="/adminviewbookings" element={<AdminViewBookings/>}/>
         {/* <Route path='/adminDashboard' element={<tokenContext.Provider value={{userToken,setuserToken}}><AdminDashboard/></tokenContext.Provider>}/> */}
       </Routes>
     </Router>

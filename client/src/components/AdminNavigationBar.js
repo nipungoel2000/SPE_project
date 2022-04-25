@@ -24,7 +24,7 @@ function NavigationBar(){
             <Nav.Link href="/adminDashboard">Dashboard</Nav.Link>
             {/* <Nav.Link href="/page1">Page1</Nav.Link> */}
             <Nav.Link href="/addslot">Add Slots</Nav.Link>
-            <Nav.Link href="#pricing">View All Bookings</Nav.Link>
+            <Nav.Link href="/adminviewbookings">View All Bookings</Nav.Link>
             {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

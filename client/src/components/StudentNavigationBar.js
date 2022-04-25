@@ -24,7 +24,6 @@ function NavigationBar(){
             <Nav.Link href="/studentDashboard">Dashboard</Nav.Link>
             <Nav.Link href="/makebooking">Make a Booking</Nav.Link>
             <Nav.Link href="/viewbooking">View Booking</Nav.Link>
-            <Nav.Link href="#pricing">Delete Booking</Nav.Link>
           </Nav>
           <Nav>
           <Nav.Link href="/studentProfile">Your Profile &nbsp;&nbsp;&nbsp;&nbsp;</Nav.Link>
