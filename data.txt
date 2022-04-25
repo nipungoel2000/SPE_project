@@ -7,7 +7,15 @@ Admins
 Student
 1. Email : stud1@gmail.com
    Password : Stud@123
-   RoomNum : 523
+   
 2. Email : stud2@gmail.com
    Password : Stud@123
-   RoomNum : 300
+   
+3. Email : stud3@gmail.com
+   Password : Stud@123
+
+4. Email : stud4@gmail.com
+   Password : Stud@123
+
+5. Email : stud5@gmail.com
+   Password : Stud@123

@@ -144,8 +144,8 @@ router.delete('/delete/:id',async (req,res)=>{
                         res.status(201).send({deletedBooking: deleteBooking});
                     }
                   }catch(err){
-                    res.json({message:err})
-                    console.log("here");
+                    res.status(400).send({message:err})
+                    // console.log("here");
                   }
             }
         })        
@@ -165,7 +165,7 @@ router.post("/fetchall",async (req,res) =>
         var activeBookingslst = []
         for(var i = 0; i<activeBookings.length; i++)
         {
-            var curBooking = {"BookingId" : activeBookings[i]._id, "email" : activeBookings[i].email, "roomNum" : activeBookings[i].roomNum, "date" : activeBookings[i].date, "time" : activeBookings[i].startTime};
+            var curBooking = {"BookingId" : activeBookings[i]._id, "email" : activeBookings[i].email, "roomNum" : activeBookings[i].roomNum, "date" : activeBookings[i].date, "startTime" : activeBookings[i].startTime,"endTime" : activeBookings[i].endTime};
             activeBookingslst.push(curBooking);
         }
         if(req.body.sortby == "RoomNumber")
