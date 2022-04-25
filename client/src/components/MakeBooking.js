@@ -26,6 +26,31 @@ function MakeBooking(){
       }
     });
     useEffect(() =>{
+        if(localStorage.getItem('token') && localStorage.getItem('role')==='student')
+        {
+            axios({
+                url: "http://localhost:3001/student/getdata",
+                method: "POST",
+                data: {token:localStorage.getItem('token')},
+            }).then((res) => {
+                if(res.status==201)
+                {  
+                    if(!res.data.data.roomNum)
+                    {
+                        setflag(2);
+                    }
+                }
+                else
+                {   
+                    alert("Internal Server Error : " + res.status);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                // console.log(res.status);
+                alert("Internal Server Error");
+            })
+        }
         let user_data = {token:localStorage.getItem('token')};
         axios({
             url: "http://localhost:3001/booking/fetchbytoken",
@@ -160,7 +185,7 @@ function MakeBooking(){
                         <Flatpickr
                             date-enable-time
                             value={date[0]}
-                            options={{dateFormat: "d-m-Y",maxDate:new Date().fp_incr(6)}}
+                            options={{dateFormat: "d-m-Y",minDate:"today",maxDate:new Date().fp_incr(6)}}
                             placeholder="Select Date"
                             style={{width:"100%"}}
                             onChange={date => {
@@ -198,6 +223,20 @@ function MakeBooking(){
                                 <p>
                                 Booking is already done. To make a <br/>new booking, delete the previous <br/>
                                 one at <Link to="/viewbooking">View Booking page</Link>
+                            </p>
+                            </div>
+                            // </div>
+                        )
+                    }
+                    {flag === 2 &&
+                        (
+                            <div>
+                                <Button disabled className="mt-3 mb-4" variant="primary" type="submit" onClick={submit}>
+                            Book
+                        </Button>
+                                <p>
+                                Room Number is not added in your Profile. To make a <br/>new booking, add the room number<br/>
+                                at <Link to="studentProfile">Your Profile page</Link>
                             </p>
                             </div>
                             // </div>
