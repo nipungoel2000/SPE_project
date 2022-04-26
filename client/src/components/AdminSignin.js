@@ -56,7 +56,7 @@ function AdminSignin() {
       data: signin_data,
     }).then((res) => {
       console.log(res);
-      if(res.data.status==201)
+      if(res.status==201)
       {  
         // setuserToken(res.data.data);
         // console.log(userToken);
@@ -76,8 +76,10 @@ function AdminSignin() {
     })
     .catch((err) => {
       console.log(err);
-      // console.log(res.status);
-      alert("Internal Server Error ");
+      if(err.response)
+        alert(err.response.data.message);
+      else
+        alert("Internal Server Error");
     })
     console.log("Button Clicked");
   };
