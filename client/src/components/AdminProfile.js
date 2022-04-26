@@ -46,8 +46,10 @@ function AdminProfile(){
           })
           .catch((err) => {
             console.log(err);
-            // console.log(res.status);
-            alert("Internal Server Error ");
+            if(err.response)
+              alert(err.response.data.message);
+            else
+              alert("Internal Server Error");
           })
         }
     },[])
@@ -75,8 +77,10 @@ function AdminProfile(){
       })
       .catch((err) => {
         console.log(err);
-        // console.log(res.status);
-        alert("Internal Server Error ");
+        if(err.response)
+          alert(err.response.data.message);
+        else
+          alert("Internal Server Error");
       })
     }
     return (

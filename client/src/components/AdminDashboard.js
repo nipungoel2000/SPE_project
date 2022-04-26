@@ -43,9 +43,11 @@ function AdminDashboard() {
               }
           })
           .catch((err) => {
-              console.log(err);
-              // console.log(res.status);
-              alert("Internal Server Error ");
+            console.log(err);
+            if(err.response)
+              alert(err.response.data.message);
+            else
+              alert("Internal Server Error");
           })
     },[]);
     return (

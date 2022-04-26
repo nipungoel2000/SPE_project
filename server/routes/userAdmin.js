@@ -29,12 +29,12 @@ router.post("/signup", async(req, res) => {
         const {error} = validateUser(req.body);
         // console.log(error);
         if(error)
-            return res.json({status: 400, message : error.details[0].message}); //res.status(400).send({message : error.details[0].message})
+            return res.status(400).send({message : error.details[0].message}); //res.status(400).send({message : error.details[0].message})
         // console.log("User validated");
         const user = await userModel.findOne({email:req.body.email})
         // console.log(user);
         if(user)
-            return res.json({status: 400, message: "Email already in use!!"});
+            return res.status(400).send({message: "Email already in use!!"});
         // console.log("Email validated");
         const newAdminUser = new userModel({
             firstName: req.body.firstName,
@@ -45,7 +45,7 @@ router.post("/signup", async(req, res) => {
         });
         const savedAdmin = await newAdminUser.save();
         console.log("savedAdmin" + `${savedAdmin}`);
-        return res.json({status: 201,message: "User created successfully" });
+        return res.status(201).send({message: "User created successfully" });
     }catch(err){
         console.log(err);
         return res.status(500).send({message: "Internal Server Error"});
@@ -73,7 +73,7 @@ router.post('/signin',async (req,res) => {
         }
         const token = admin.generateAuthToken();
         console.log("Log in successful");
-        return res.json({status: 201, data: token, message: "Logged In successfully"});
+        return res.status(201).send({data: token, message: "Logged In successfully"});
     }catch(err){
         console.log(err);
         return res.status(500).send({message: "Internal Server Error"});
