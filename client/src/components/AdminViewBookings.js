@@ -26,7 +26,7 @@ function getstrDate(datetime){
 function AdminViewBookings(){
     const navigate = useNavigate();
     const [bookings, setBookings] = useState([]);
-    const [date, setdate] = useState("All");
+    const [strdate, setstrdate] = useState("All");
     const [sortby, setsortby] = useState("default");
 
     useEffect(() => {
@@ -46,7 +46,7 @@ function AdminViewBookings(){
         axios({
             url: "http://localhost:3001/booking/fetchall",
             method: "POST",
-            data: {sortby:temp, date:date},
+            data: {sortby:temp, date:strdate},
         }).then((res) => {
             
             if(res.status==201){
@@ -62,7 +62,7 @@ function AdminViewBookings(){
             // console.log(res.status);
             alert("Internal Server Error ");
         }) 
-    },[sortby,date]);
+    },[sortby,strdate]);
 
     return(
         <>
@@ -85,7 +85,7 @@ function AdminViewBookings(){
               <Form.Group className="mt-2" controlId="formDate">
                     <Flatpickr
                         date-enable-time
-                        value={date[0]}
+                        value={strdate}
                         options={{dateFormat: "d-m-Y",minDate:"today",maxDate:new Date().fp_incr(6)}}
                         placeholder="Select Date"
                         style={{width:"50%"}}
@@ -93,10 +93,10 @@ function AdminViewBookings(){
                             // console.log("yo ",date[0]);
                             // console.log(date);
                             console.log(getstrDate(date[0]));
-                            setdate(getstrDate(date[0]));
+                            setstrdate(getstrDate(date[0]));
                           }}          
                     />
-                    <Button className="mx-2" onClick={() => setdate("All")}>Show All</Button>
+                    <Button className="mx-2" onClick={() => setstrdate("All")}>Show All</Button>
               </Form.Group>
           <CSVLink data={bookings} filename={"Bookings.csv"} className="btn btn-primary mt-2 mb-2 col-example text-left" target="_blank"> Download All</CSVLink>
           </div>

@@ -73,8 +73,12 @@ function StudentSignin() {
     })
     .catch((err) => {
       console.log(err);
+      if(err.response)
+        alert(err.response.data.message);
+      else
+        alert("Internal Server Error");
       // console.log(res.status);
-      alert("Internal Server Error ");
+      
     })
     console.log("Button Clicked");
   };
