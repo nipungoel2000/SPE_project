@@ -13,7 +13,7 @@ import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import MakeBooking from "./components/MakeBooking";
 import ViewBooking from "./components/ViewBooking";
 import AdminViewBookings from "./components/AdminViewBookings";
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
  // login reference: https://codepen.io/rares-lungescu/pen/KLbMvo
 // export const tokenContext = React.createContext();
 

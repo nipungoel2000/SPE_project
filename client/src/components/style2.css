@@ -21,7 +21,7 @@ html{
   margin: 100px auto;
   background-color: #FFFFFF;
   border-radius: 25px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 #headerTitle{
