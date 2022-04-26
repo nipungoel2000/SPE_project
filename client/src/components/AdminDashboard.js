@@ -4,6 +4,7 @@ import './test.css'
 import {Link, useNavigate} from 'react-router-dom';
 import NavigationBar from './AdminNavigationBar';
 import {Row,Col} from 'react-bootstrap';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 function AdminDashboard() {
     // const {userToken,setuserToken} = useContext(tokenContext);
@@ -13,6 +14,7 @@ function AdminDashboard() {
     // },[userToken]);
     const navigate = useNavigate();
     const role=localStorage.getItem('role');
+    const [name,setName]=useState("admin");
     useEffect(() => {
       if(!localStorage.getItem('token')){
         // console.log("HERE_1");
@@ -23,7 +25,29 @@ function AdminDashboard() {
         navigate('/studentDashboard');
       }
     });
-  
+    useEffect(() => {
+          axios({
+              url: "http://localhost:3001/admin/getname",
+              method: "POST",
+              data: {token:localStorage.getItem('token')},
+          }).then((res) => {
+              console.log(res);
+              if(res.status==201)
+              {  
+                console.log(res.data.name);
+                setName(res.data.name);
+              }
+              else
+              {   
+                alert("Internal Server Error : " + res.status);
+              }
+          })
+          .catch((err) => {
+              console.log(err);
+              // console.log(res.status);
+              alert("Internal Server Error ");
+          })
+    },[]);
     return (
         <>
         <NavigationBar/>
@@ -31,7 +55,7 @@ function AdminDashboard() {
           <Row>
             <Col md="auto">
             <h1 style={{fontSize:"50px"}}>
-                Welcome {role}!!
+                Welcome {name}!
               </h1>
             </Col>
           </Row>

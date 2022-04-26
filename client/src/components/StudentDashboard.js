@@ -3,11 +3,13 @@ import './test.css'
 import {Link, useNavigate} from 'react-router-dom';
 import NavigationBar from './StudentNavigationBar';
 import {Row,Col} from 'react-bootstrap';
+import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.css';
 
 function StudentDashboard() {
     const navigate = useNavigate();
     const role=localStorage.getItem('role');
+    const [name,setName] = useState("student");
     useEffect(() => {
       if(!localStorage.getItem('token')){
         navigate('/studentSignin');
@@ -16,7 +18,29 @@ function StudentDashboard() {
         navigate('/adminDashboard');
       }
     });
-  
+    useEffect(() => {
+            axios({
+                url: "http://localhost:3001/student/getname",
+                method: "POST",
+                data: {token:localStorage.getItem('token')},
+            }).then((res) => {
+                console.log(res);
+                if(res.status==201)
+                {  
+                  console.log(res.data.name);
+                  setName(res.data.name);
+                }
+                else
+                {   
+                  alert("Internal Server Error : " + res.status);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                // console.log(res.status);
+                alert("Internal Server Error ");
+            })
+    },[]);
     return (
         <>
         <NavigationBar/>
@@ -24,7 +48,7 @@ function StudentDashboard() {
           <Row>
             <Col md="auto">
             <h1 style={{fontSize:"50px"}}>
-                Welcome {role}!!
+                Welcome {name}!
               </h1>
             </Col>
           </Row>

@@ -1,5 +1,6 @@
 import React, { useState, useContext, createContext, useEffect}  from "react";
 import {Link, useNavigate} from 'react-router-dom';
+import Flatpickr from "react-flatpickr";
 // import { tokenContext } from '../App';
 // import './test.css'
 import {Form,Button,Row,Col,Container} from 'react-bootstrap';
@@ -10,9 +11,22 @@ import NavigationBar from './AdminNavigationBar';
 import {CSVDownload,CSVLink} from "react-csv";
 import axios from "axios";
 
+function getstrDate(datetime){
+  var month = datetime.getMonth();
+  month += 1;
+  var date_str=datetime.getDate()+"-";
+  if(datetime.getDate()<10)
+      date_str='0'+date_str;
+  if(month<10)
+      date_str=date_str+'0';
+  date_str=date_str+month+"-"+datetime.getFullYear();
+  return date_str;
+};
+
 function AdminViewBookings(){
     const navigate = useNavigate();
     const [bookings, setBookings] = useState([]);
+    const [date, setdate] = useState("All");
     const [sortby, setsortby] = useState("default");
 
     useEffect(() => {
@@ -26,13 +40,13 @@ function AdminViewBookings(){
     });
 
     useEffect(()=>{
-      // if(sortby=="default")
-      //   alert("Please choose the sorting criteria in result");
-      if(sortby!="default"){
+      var temp = sortby;
+      if(temp=='default')
+        temp = "RoomNumber"
         axios({
             url: "http://localhost:3001/booking/fetchall",
             method: "POST",
-            data: {sortby:sortby},
+            data: {sortby:temp, date:date},
         }).then((res) => {
             
             if(res.status==201){
@@ -47,18 +61,12 @@ function AdminViewBookings(){
             console.log(err);
             // console.log(res.status);
             alert("Internal Server Error ");
-        }) }
-    },[sortby]);
+        }) 
+    },[sortby,date]);
 
     return(
         <>
         <NavigationBar/>
-        {/* <div>
-          <Row>
-            <Col>Test1</Col>
-            <Col> Test2</Col>
-          </Row>
-        </div> */}
         <div>
           <div className="d-flex justify-content-around">
             <Form>
@@ -74,7 +82,22 @@ function AdminViewBookings(){
                 </Form.Select>
             </Form.Group>
             </Form>
-      {/* <Button className="mt-2 mb-2 col-example text-left" variant="primary" onClick={download}>Download</Button> */}
+              <Form.Group className="mt-2" controlId="formDate">
+                    <Flatpickr
+                        date-enable-time
+                        value={date[0]}
+                        options={{dateFormat: "d-m-Y",minDate:"today",maxDate:new Date().fp_incr(6)}}
+                        placeholder="Select Date"
+                        style={{width:"50%"}}
+                        onChange={date => {
+                            // console.log("yo ",date[0]);
+                            // console.log(date);
+                            console.log(getstrDate(date[0]));
+                            setdate(getstrDate(date[0]));
+                          }}          
+                    />
+                    <Button className="mx-2" onClick={() => setdate("All")}>Show All</Button>
+              </Form.Group>
           <CSVLink data={bookings} filename={"Bookings.csv"} className="btn btn-primary mt-2 mb-2 col-example text-left" target="_blank"> Download All</CSVLink>
           </div>
           <table className="table">

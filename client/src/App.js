@@ -28,7 +28,7 @@ function App() {
     <>
     <Router>
       <Routes>
-      {/* <Route path='/' exact element={<StudentSignup/>}/> */}
+      <Route path='/' exact element={<StudentSignin/>}/>
         {/* <Route path='/adminSignin' element={<tokenContext.Provider value={{userToken,setuserToken}}> <AdminSignin/> </tokenContext.Provider>}/> */}
         <Route path='/adminSignin' element={<AdminSignin/>}/>
         <Route path='/adminSignup' element={<AdminSignup/>}/>

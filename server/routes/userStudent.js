@@ -99,7 +99,26 @@ router.post("/getdata",async (req,res) => {
         res.status(500).send({message: err});
     }
 });
-
+//get user name
+router.post("/getname",async (req,res) => {
+    try{
+        const token=req.body.token;
+        jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
+            if(err){
+                // console.log(err.message);
+                res.status(400).send({message:err});
+            }
+            else{
+                // console.log(decodedToken);
+                let userdata=await userModel.findOne({_id:decodedToken._id});
+                res.status(201).send({name:userdata.firstName});
+            }
+        })
+    }
+    catch(err){
+        res.status(500).send({message: err});
+    }
+});
 // update user data
 router.post("/updatedata",async (req,res) => {
     try{

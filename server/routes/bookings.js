@@ -157,14 +157,17 @@ router.delete('/delete/:id',async (req,res)=>{
   })
 
 //returns all active bookings in custom sorted order as per argument in API
-//req.body(sortby) ---> sortby:RoomNumber or Time
+//req.body(sortby,date) ---> sortby:RoomNumber or Time, date:All or date(in string)
 router.post("/fetchall",async (req,res) =>
 {
-    try{
-        const activeBookings = await bookingModel.find({status:"active"});
+    try{    
+        var filter = {status:"active"};
+        if(req.body.date!="All")
+            filter = {status:"active", date:req.body.date};
+        const activeBookings = await bookingModel.find(filter);
         var activeBookingslst = []
         for(var i = 0; i<activeBookings.length; i++)
-        {
+        {   
             var curBooking = {"BookingId" : activeBookings[i]._id, "email" : activeBookings[i].email, "roomNum" : activeBookings[i].roomNum, "date" : activeBookings[i].date, "startTime" : activeBookings[i].startTime,"endTime" : activeBookings[i].endTime};
             activeBookingslst.push(curBooking);
         }
