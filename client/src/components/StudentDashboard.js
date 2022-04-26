@@ -51,12 +51,12 @@ function StudentDashboard() {
           </Row>
           <Row>
             <Col md="auto">
-              <h3>You can make booking  <Link to="/">here</Link></h3>
+              <h3>You can make booking  <Link to="/makebooking">here</Link></h3>
             </Col>
           </Row>
           <Row>
             <Col md="auto"> 
-              <h3>or view <Link to="/view">your booking.</Link></h3>
+              <h3>or view <Link to="/viewbooking">your booking.</Link></h3>
             </Col>
           </Row>
         </div>

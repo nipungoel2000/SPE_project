@@ -68,7 +68,7 @@ function AdminDashboard() {
           </Row>
           <Row>
             <Col md="auto"> 
-              <h3>or view <Link to="/view">all bookings</Link></h3>
+              <h3>or view <Link to="/adminviewbookings">all bookings</Link></h3>
             </Col>
           </Row>
         </div>
