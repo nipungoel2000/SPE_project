@@ -46,9 +46,10 @@ function MakeBooking(){
                 }
             })
             .catch((err) => {
-                console.log(err);
-                // console.log(res.status);
-                alert("Internal Server Error");
+                if(err.response)
+                    alert(err.response.data.message);
+                else
+                    alert("Internal Server Error");
             })
         }
         let user_data = {token:localStorage.getItem('token')};
@@ -65,9 +66,10 @@ function MakeBooking(){
             }
         })
         .catch((err) => {
-            console.log(err);
-            // console.log(res.status);
-            alert("Internal Server Error ");
+            if(err.response)
+                alert(err.response.data.message);
+            else
+                alert("Internal Server Error");
         })
         // console.log("flag ",flag);
     },[]);
@@ -104,9 +106,10 @@ function MakeBooking(){
             }
         })
         .catch((err) => {
-            console.log(err);
-            // console.log(res.status);
-            alert("Internal Server Error ");
+            if(err.response)
+                alert(err.response.data.message);
+            else
+                alert("Internal Server Error");
         })
     },[date]);
     async function submit(e)
@@ -164,9 +167,10 @@ function MakeBooking(){
                 }
             })
             .catch((err) => {
-                console.log(err);
-                // console.log(res.status);
-                alert("Internal Server Error ");
+                if(err.response)
+                    alert(err.response.data.message);
+                else
+                    alert("Internal Server Error");
                 navigate('/makebooking');
             })
         }

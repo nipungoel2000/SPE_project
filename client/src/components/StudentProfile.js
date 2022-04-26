@@ -40,16 +40,12 @@ function StudentProfile(){
               setemail(res.data.data.email);
               setroomNum(res.data.data.roomNum);
             }
-            else
-            {   
-            //   console.log(res.data.data);
-              alert("Internal Server Error : " + res.status);
-            }
           })
           .catch((err) => {
-            console.log(err);
-            // console.log(res.status);
-            alert("Internal Server Error");
+            if(err.response)
+              alert(err.response.data.message);
+            else
+              alert("Internal Server Error");
           })
         }
     },[])
@@ -77,15 +73,12 @@ function StudentProfile(){
           alert("Student Details Updated Successfully");
           window.location="/studentProfile";
         }
-        else
-        {   
-         alert("Internal Server Error : " + res.status);
-        }
       })
       .catch((err) => {
-        console.log(err);
-        // console.log(res.status);
-        alert("Internal Server Error");
+        if(err.response)
+          alert(err.response.data.message);
+        else
+          alert("Internal Server Error");
       })
     }
     }

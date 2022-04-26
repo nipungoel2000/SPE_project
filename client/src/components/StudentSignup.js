@@ -67,24 +67,17 @@ function StudentSignup() {
       data: signup_data,
     }).then((res) => {
       console.log(res);
-      if(res.data.status==201)
+      if(res.status==201)
       {
         alert("Student registered successfully");
         window.location="/studentSignup";
       }
-      else if(res.data.status==400)
-      {
-        alert(res.data.message);
-      }
-      else
-      {
-        alert("Student registeration failed");
-      }
     })
     .catch((err) => {
-      console.log(err);
-      // console.log(res.status);
-      alert("Student registeration failed : "+err);
+      if(err.response)
+        alert(err.response.data.message);
+      else
+        alert("Internal Server Error");
     })
     console.log("Button Clicked");
   };
