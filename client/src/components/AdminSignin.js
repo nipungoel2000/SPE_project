@@ -18,7 +18,9 @@ function AdminSignin() {
       navigate('/studentDashboard');
     }
   });
-
+  useEffect(() => {
+    document.body.style.background="linear-gradient(135deg, rgba(34,190,195,1) 0%,rgba(253,187,45,1) 100%)";
+  }, []);
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   // const {userToken,setuserToken} = useContext(tokenContext);

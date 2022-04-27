@@ -130,6 +130,7 @@ function AddSlot() {
     return(
         <>
         <NavigationBar/>
+        <div className="border border-dark border-5 rounded-lg mb-2 mt-5" style={{marginLeft:"20%", marginRight:"20%", backgroundColor:"bisque"}}>
         <div className="d-flex justify-content-center align-items-center mt-5 pt-2">
             <h1>Add Slot for booking</h1>
         </div>
@@ -192,6 +193,7 @@ function AddSlot() {
                     Submit
                 </Button>
             </Form>
+        </div>
         </div>
     </>
     );

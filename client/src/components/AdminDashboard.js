@@ -53,21 +53,21 @@ function AdminDashboard() {
     return (
         <>
         <NavigationBar/>
-        <div style={{marginTop:"10%",marginLeft:"25%",marginRight:"25%",borderStyle:"solid",backgroundColor:"lightblue"}}> 
-          <Row>
-            <Col md="auto">
+        <div style={{marginTop:"10%",marginLeft:"27%",marginRight:"27%",borderStyle:"solid",backgroundColor:"bisque", padding:"3%"}}> 
+          <Row className="text-center">
+            <Col>
             <h1 style={{fontSize:"50px"}}>
                 Welcome {name}!
               </h1>
             </Col>
           </Row>
-          <Row>
-            <Col md="auto">
+          <Row className="text-center">
+            <Col>
               <h3>You can add slots  <Link to="/addslot">here</Link></h3>
             </Col>
           </Row>
-          <Row>
-            <Col md="auto"> 
+          <Row className="text-center">
+            <Col>
               <h3>or view <Link to="/adminviewbookings">all bookings</Link></h3>
             </Col>
           </Row>

@@ -178,7 +178,7 @@ function MakeBooking(){
     return(
         <>
             <NavigationBar/>
-            <div className="border border-dark border-5 rounded-lg mb-4 mt-5" style={{marginLeft:"30%", marginRight:"30%", backgroundColor:"lightgrey"}}>
+            <div className="border border-dark border-5 rounded-lg mb-4 mt-5" style={{marginLeft:"30%", marginRight:"30%", backgroundColor:"silver"}}>
             <div className="d-flex justify-content-center align-items-center mt-5 pt-2">
                 <h1>Book Slot</h1>
             </div>

@@ -1,7 +1,7 @@
 import React , {useEffect,useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import './style2.css';
+import './style.css';
 // login reference: https://codepen.io/rares-lungescu/pen/KLbMvo
 
 function StudentSignup() {
@@ -47,7 +47,9 @@ function StudentSignup() {
     <p style={{color: "gray"}}>Made by Nipun and Vinayak</p>
   </div>
   );
-
+  useEffect(() => {
+    document.body.style.background="linear-gradient(135deg, rgba(34,100,195,1) 0%,     rgba(253,187,45,1) 100%)";
+  }, []);
   const onSubmit = (data) =>
   { 
     // setfirstName("Niu");
@@ -82,6 +84,7 @@ function StudentSignup() {
     console.log("Button Clicked");
   };
   return (
+    // <div id="check" style={{background:"linear-gradient(135deg, rgba(34,193,195,1) 0%,     rgba(253,187,45,1) 100%)"}}>  
     <div id="signupform">
         <FormHeader title="Student SignUp" />
         <div className="row">
@@ -103,6 +106,7 @@ function StudentSignup() {
         <FormButton title="Sign up" onSubmit = {onSubmit}/>
         <OtherMethods />
       </div>
+      // </div>
   );
 
 }
