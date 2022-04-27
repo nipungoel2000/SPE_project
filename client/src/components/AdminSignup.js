@@ -18,8 +18,8 @@ function AdminSignup() {
     }
   });
   useEffect(() => {
-    document.body.style.background="linear-gradient(to top, #838974, #909866, #a1a654, #b7b33d, #d2be18)";
-    // document.body.style.background="linear-gradient(135deg, rgba(34,190,195,1) 0%,rgba(253,187,45,1) 100%)";
+    // document.body.style.background="linear-gradient(0deg, rgba(63,94,251,1) 0%, rgba(255,53,101,1) 100%)";//"linear-gradient(to top, #838974, #909866, #a1a654, #b7b33d, #d2be18)";
+    document.body.style.background="linear-gradient(135deg, rgba(34,190,195,1) 0%,rgba(253,187,45,1) 100%)";
   }, []);
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");

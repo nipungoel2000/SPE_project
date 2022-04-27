@@ -25,6 +25,7 @@ function AdminProfile(){
     useEffect(()=>{
         if(localStorage.getItem('token') && localStorage.getItem('role')==='admin')
         {
+          document.body.style.background="linear-gradient(135deg, rgba(34,190,195,1) 0%,rgba(253,187,45,1) 100%)";
         axios({
             url: "http://localhost:3001/admin/getdata",
             method: "POST",

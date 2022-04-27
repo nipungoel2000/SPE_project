@@ -19,7 +19,7 @@ function StudentDashboard() {
       }
     });
     useEffect(() => {
-      // document.body.style.background="linear-gradient(135deg, rgba(34,100,195,1) 0%,rgba(253,187,45,1) 100%)";
+      document.body.style.background="linear-gradient(135deg, rgba(34,100,195,1) 0%,rgba(253,187,45,1) 100%)";
             axios({
                 url: "http://localhost:3001/student/getname",
                 method: "POST",

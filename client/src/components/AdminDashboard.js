@@ -26,6 +26,7 @@ function AdminDashboard() {
       }
     });
     useEffect(() => {
+      document.body.style.background="linear-gradient(135deg, rgba(34,190,195,1) 0%,rgba(253,187,45,1) 100%)";
           axios({
               url: "http://localhost:3001/admin/getname",
               method: "POST",

@@ -2,8 +2,6 @@ import React, { useState, useContext, createContext, useEffect}  from "react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import 'bootstrap/dist/css/bootstrap.css';
-// import { tokenContext } from '../App';
-// import './test.css'
 import {useNavigate} from 'react-router-dom';
 import {Form,Button} from 'react-bootstrap';
 import NavigationBar from "./AdminNavigationBar";
@@ -28,6 +26,9 @@ function AddSlot() {
         navigate('/studentDashboard');
       }
     });
+    useEffect(() => {
+      document.body.style.background="linear-gradient(135deg, rgba(34,190,195,1) 0%,rgba(253,187,45,1) 100%)";
+    }, []);
     async function submit(e)
     {
       e.preventDefault();
