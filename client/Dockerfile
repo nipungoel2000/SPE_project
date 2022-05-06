@@ -1,12 +1,12 @@
 FROM node:16.14.0-alpine
 
-WORKDIR /client
+WORKDIR /
 
-COPY package*.json /client
+COPY package*.json /
 
 RUN npm install
 
-COPY . /client
+COPY . /
 
 EXPOSE 3000
 CMD [ "npm", "start" ]

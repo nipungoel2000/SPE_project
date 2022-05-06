@@ -10,7 +10,7 @@ module.exports = () => {
     const uri = process.env.DB_URI;
     mongoose.connect(uri, connectionsParams)
     .then(() => {
-      console.log("Database Connected");
+      // console.log("Database Connected");
     })
     .catch((err) => {
       console.error(err);

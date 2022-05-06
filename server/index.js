@@ -32,7 +32,7 @@ const slots = require("./routes/slots");
     app.use("/slot",slots);    
 
 app.get('/hello',check,(req,res)=>{
-    console.log("hello");
+    // console.log("hello");
     res.send('hello world');
 });
 
@@ -49,7 +49,7 @@ function check(req,res,next){
 }; 
 
 app.listen(port,()=>{
-    console.log("Server started on port"+ `${port}`)
+    // console.log("Server started on port"+ `${port}`)
 })
 
 function getstrDate(datetime){
@@ -142,3 +142,4 @@ async function job(datetime){
 }
 cron.schedule('0 1,31 * * * *', () => {job(new Date())});
 // job();
+module.exports = app
