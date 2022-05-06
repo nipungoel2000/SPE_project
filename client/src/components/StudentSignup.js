@@ -7,7 +7,7 @@ import './style.css';
 function StudentSignup() {
 
   const navigate = useNavigate();
-  
+  const serverURL = "https://caretakerserver.azurewebsites.net/";
   useEffect(() => {
     if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
       navigate('/adminDashboard');
@@ -64,7 +64,7 @@ function StudentSignup() {
       password:password
     };
     axios({
-      url: "http://localhost:3001/student/signup",
+      url: serverURL+"student/signup",
       method: "POST",
       data: signup_data,
     }).then((res) => {

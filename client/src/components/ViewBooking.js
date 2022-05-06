@@ -9,6 +9,7 @@ import axios from "axios";
 
 function ViewBooking(){
     const navigate = useNavigate();
+    const serverURL = "https://caretakerserver.azurewebsites.net/";
     const [bookings, setBookings] = useState([]);
 
     useEffect(() => {
@@ -25,7 +26,7 @@ function ViewBooking(){
         let user_data = {token:localStorage.getItem('token')};
         document.body.style.background="linear-gradient(135deg, rgba(34,100,195,1) 0%,rgba(253,187,45,1) 100%)";
         axios({
-            url: "http://localhost:3001/booking/fetchbytoken",
+            url: serverURL+"booking/fetchbytoken",
             method: "POST",
             data: user_data,
         }).then((res) => {
@@ -52,7 +53,7 @@ function ViewBooking(){
         if (window.confirm("are you sure you want to delete the booking?")) {
             let user_data = {token:localStorage.getItem('token')};
             axios({
-                url: "http://localhost:3001/booking/delete/"+id,
+                url: serverURL+"booking/delete/"+id,
                 method: "DELETE",
                 data: user_data,
             }).then((res) => {

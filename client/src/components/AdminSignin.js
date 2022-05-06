@@ -6,7 +6,7 @@ import axios from "axios";
 // import { tokenContext } from '../App';
 
 function AdminSignin() {
-  
+  const serverURL = "https://caretakerserver.azurewebsites.net/";
   const navigate = useNavigate();
   useEffect(() => {
     if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
@@ -53,7 +53,7 @@ function AdminSignin() {
       password:password
     };
     axios({
-      url: "http://localhost:3001/admin/signin",
+      url: serverURL+"admin/signin",
       method: "POST",
       data: signin_data,
     }).then((res) => {

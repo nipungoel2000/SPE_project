@@ -5,7 +5,7 @@ import './style.css';
 // login reference: https://codepen.io/rares-lungescu/pen/KLbMvo
 
 function AdminSignup() {
-
+  const serverURL = "https://caretakerserver.azurewebsites.net/";
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -91,7 +91,7 @@ function AdminSignup() {
       password:password
     };
     axios({
-      url: "http://localhost:3001/admin/signup",
+      url: serverURL+"admin/signup",
       method: "POST",
       data: signup_data,
     }).then((res) => {

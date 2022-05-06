@@ -24,6 +24,7 @@ function getstrDate(datetime){
 };
 
 function AdminViewBookings(){
+    const serverURL = "https://caretakerserver.azurewebsites.net/";
     const navigate = useNavigate();
     const [bookings, setBookings] = useState([]);
     const [strdate, setstrdate] = useState("All");
@@ -46,7 +47,7 @@ function AdminViewBookings(){
       if(temp=='default')
         temp = "RoomNumber"
         axios({
-            url: "http://localhost:3001/booking/fetchall",
+            url: serverURL+"booking/fetchall",
             method: "POST",
             data: {sortby:temp, date:strdate},
         }).then((res) => {

@@ -6,6 +6,7 @@ import axios from "axios";
 // import "./profile.css";
 
 function AdminProfile(){
+    const serverURL = "https://caretakerserver.azurewebsites.net/";
     const navigate = useNavigate();
     const [firstName, setfirstName] = useState("");
     const [lastName, setlastName] = useState("");
@@ -27,7 +28,7 @@ function AdminProfile(){
         {
           document.body.style.background="linear-gradient(135deg, rgba(34,190,195,1) 0%,rgba(253,187,45,1) 100%)";
         axios({
-            url: "http://localhost:3001/admin/getdata",
+            url: serverURL+"admin/getdata",
             method: "POST",
             data: {token:localStorage.getItem('token')},
           }).then((res) => {
@@ -61,7 +62,7 @@ function AdminProfile(){
       console.log(lastName);
       let details = {token:localStorage.getItem('token'),newdata:{firstName:firstName, lastName:lastName}};
       await axios({
-        url: "http://localhost:3001/admin/updatedata",
+        url: serverURL+"admin/updatedata",
         method: "POST",
         data: details,
       }).then((res) => {

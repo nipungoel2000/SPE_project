@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 function StudentDashboard() {
     const navigate = useNavigate();
+    const serverURL = "https://caretakerserver.azurewebsites.net/";
     const role=localStorage.getItem('role');
     const [name,setName] = useState("student");
     useEffect(() => {
@@ -21,7 +22,7 @@ function StudentDashboard() {
     useEffect(() => {
       document.body.style.background="linear-gradient(135deg, rgba(34,100,195,1) 0%,rgba(253,187,45,1) 100%)";
             axios({
-                url: "http://localhost:3001/student/getname",
+                url: serverURL+"student/getname",
                 method: "POST",
                 data: {token:localStorage.getItem('token')},
             }).then((res) => {

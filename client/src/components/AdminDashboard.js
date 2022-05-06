@@ -12,6 +12,7 @@ function AdminDashboard() {
     //     console.log("In use effect");
     //     console.log(userToken);
     // },[userToken]);
+    const serverURL = "https://caretakerserver.azurewebsites.net/";
     const navigate = useNavigate();
     const role=localStorage.getItem('role');
     const [name,setName]=useState("admin");
@@ -28,7 +29,7 @@ function AdminDashboard() {
     useEffect(() => {
       document.body.style.background="linear-gradient(135deg, rgba(34,190,195,1) 0%,rgba(253,187,45,1) 100%)";
           axios({
-              url: "http://localhost:3001/admin/getname",
+              url: serverURL+"admin/getname",
               method: "POST",
               data: {token:localStorage.getItem('token')},
           }).then((res) => {

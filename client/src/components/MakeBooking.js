@@ -11,6 +11,7 @@ import axios from "axios";
 
 function MakeBooking(){
     const navigate = useNavigate();
+    const serverURL = "https://caretakerserver.azurewebsites.net/";
     const [date, setdate] = useState("");
     const [time_opt, settime] = useState("");
     const [options,setoptions]=useState([]);
@@ -30,7 +31,7 @@ function MakeBooking(){
         if(localStorage.getItem('token') && localStorage.getItem('role')==='student')
         {
             axios({
-                url: "http://localhost:3001/student/getdata",
+                url: serverURL+"student/getdata",
                 method: "POST",
                 data: {token:localStorage.getItem('token')},
             }).then((res) => {
@@ -55,7 +56,7 @@ function MakeBooking(){
         }
         let user_data = {token:localStorage.getItem('token')};
         axios({
-            url: "http://localhost:3001/booking/fetchbytoken",
+            url: serverURL+"booking/fetchbytoken",
             method: "POST",
             data: user_data,
         }).then((res) => {
@@ -95,7 +96,7 @@ function MakeBooking(){
         console.log("yo date",date_str);
         let slot_data = {date:date_str,token:localStorage.getItem('token')};
         axios({
-            url: "http://localhost:3001/slot/fetch",
+            url: serverURL+"slot/fetch",
             method: "POST",
             data: slot_data,
         }).then((res) => {
@@ -151,7 +152,7 @@ function MakeBooking(){
             etime_str=time_opt.slice(8,13);
             let booking_data = {date:date_str,token:localStorage.getItem('token'),startTime:stime_str,endTime:etime_str};
             axios({
-                url: "http://localhost:3001/booking/make",
+                url: serverURL + "booking/make",
                 method: "POST",
                 data: booking_data,
             }).then((res) => {

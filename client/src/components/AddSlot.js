@@ -8,6 +8,7 @@ import NavigationBar from "./AdminNavigationBar";
 import axios from "axios";
 function AddSlot() {
 
+    const serverURL = "https://caretakerserver.azurewebsites.net/";
     const navigate = useNavigate();
     const [date, setdate] = useState("");
     const [time, settime] = useState("");
@@ -103,7 +104,7 @@ function AddSlot() {
       {
             let slot_data = {date:date_str,startTime:stime_str,endTime:etime_str,floor:floorNum,teams:numTeams};
             await axios({
-                url: "http://localhost:3001/slot/add",
+                url: serverURL+"slot/add",
                 method: "POST",
                 data: slot_data,
             }).then((res) => {

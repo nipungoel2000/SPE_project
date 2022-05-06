@@ -7,6 +7,7 @@ import axios from "axios";
 
 function StudentProfile(){
     const navigate = useNavigate();
+    const serverURL = "https://caretakerserver.azurewebsites.net/";
     const [firstName, setfirstName] = useState("");
     const [lastName, setlastName] = useState("");
     const [email,setemail] = useState("");
@@ -28,7 +29,7 @@ function StudentProfile(){
         {
           document.body.style.background="linear-gradient(135deg, rgba(34,100,195,1) 0%,rgba(253,187,45,1) 100%)";
         axios({
-            url: "http://localhost:3001/student/getdata",
+            url: serverURL+"student/getdata",
             method: "POST",
             data: {token:localStorage.getItem('token')},
           }).then((res) => {
@@ -64,7 +65,7 @@ function StudentProfile(){
       console.log(lastName);
       let details = {token:localStorage.getItem('token'),newdata:{firstName:firstName, lastName:lastName, roomNum:roomNum}};
       await axios({
-        url: "http://localhost:3001/student/updatedata",
+        url: serverURL + "student/updatedata",
         method: "POST",
         data: details,
       }).then((res) => {

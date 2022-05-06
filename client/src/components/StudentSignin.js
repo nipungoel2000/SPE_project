@@ -7,6 +7,7 @@ import axios from "axios";
 function StudentSignin() {
 
   const navigate = useNavigate();
+  const serverURL = "https://caretakerserver.azurewebsites.net/";
   useEffect(() => {
     if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
       console.log("HERE_1");
@@ -52,7 +53,7 @@ function StudentSignin() {
       password:password
     };
     axios({
-      url: "http://localhost:3001/student/signin",
+      url: serverURL+"student/signin",
       method: "POST",
       data: signin_data,
     }).then((res) => {
