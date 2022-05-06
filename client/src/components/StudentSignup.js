@@ -3,11 +3,12 @@ import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import './style.css';
 // login reference: https://codepen.io/rares-lungescu/pen/KLbMvo
+require('dotenv').config()
 
 function StudentSignup() {
 
   const navigate = useNavigate();
-  const serverURL = "https://caretakerserver.azurewebsites.net/";
+  const serverURL = process.env.REACT_APP_serverURL;
   useEffect(() => {
     if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
       navigate('/adminDashboard');

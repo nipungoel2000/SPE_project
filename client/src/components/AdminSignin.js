@@ -4,10 +4,12 @@ import './style.css';
 import {Link, useNavigate} from 'react-router-dom';
 import axios from "axios";
 // import { tokenContext } from '../App';
+require('dotenv').config()
+
 
 function AdminSignin() {
-  const serverURL = "https://caretakerserver.azurewebsites.net/";
   const navigate = useNavigate();
+  const serverURL = process.env.REACT_APP_serverURL;
   useEffect(() => {
     if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
       // console.log("HERE_1");
@@ -23,6 +25,7 @@ function AdminSignin() {
   }, []);
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  // const [serverURL,setServerURL] = useState(process.env.serverURL);
   // const {userToken,setuserToken} = useContext(tokenContext);
   function FormHeader(props){
     return <h2 id="headerTitle">{props.title}</h2>
@@ -52,6 +55,7 @@ function AdminSignin() {
       email:email,
       password:password
     };
+    console.log("yo ",serverURL);
     axios({
       url: serverURL+"admin/signin",
       method: "POST",

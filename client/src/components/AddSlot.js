@@ -6,9 +6,10 @@ import {useNavigate} from 'react-router-dom';
 import {Form,Button} from 'react-bootstrap';
 import NavigationBar from "./AdminNavigationBar";
 import axios from "axios";
+require('dotenv').config()
 function AddSlot() {
 
-    const serverURL = "https://caretakerserver.azurewebsites.net/";
+    const serverURL = process.env.REACT_APP_serverURL;
     const navigate = useNavigate();
     const [date, setdate] = useState("");
     const [time, settime] = useState("");

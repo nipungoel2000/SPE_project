@@ -6,13 +6,14 @@ import NavigationBar from './AdminNavigationBar';
 import {Row,Col} from 'react-bootstrap';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
+require('dotenv').config()
 function AdminDashboard() {
     // const {userToken,setuserToken} = useContext(tokenContext);
     // useEffect(() => {
     //     console.log("In use effect");
     //     console.log(userToken);
     // },[userToken]);
-    const serverURL = "https://caretakerserver.azurewebsites.net/";
+    const serverURL = process.env.REACT_APP_serverURL;
     const navigate = useNavigate();
     const role=localStorage.getItem('role');
     const [name,setName]=useState("admin");

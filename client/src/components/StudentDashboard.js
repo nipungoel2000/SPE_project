@@ -5,10 +5,11 @@ import NavigationBar from './StudentNavigationBar';
 import {Row,Col} from 'react-bootstrap';
 import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.css';
+require('dotenv').config()
 
 function StudentDashboard() {
     const navigate = useNavigate();
-    const serverURL = "https://caretakerserver.azurewebsites.net/";
+    const serverURL = process.env.REACT_APP_serverURL;
     const role=localStorage.getItem('role');
     const [name,setName] = useState("student");
     useEffect(() => {

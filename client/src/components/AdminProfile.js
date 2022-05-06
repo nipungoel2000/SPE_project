@@ -3,10 +3,11 @@ import {Link, useNavigate} from 'react-router-dom';
 import NavigationBar from './AdminNavigationBar';
 import {Form, Button, Card} from "react-bootstrap";
 import axios from "axios";
+require('dotenv').config()
 // import "./profile.css";
 
 function AdminProfile(){
-    const serverURL = "https://caretakerserver.azurewebsites.net/";
+    const serverURL = process.env.REACT_APP_serverURL;
     const navigate = useNavigate();
     const [firstName, setfirstName] = useState("");
     const [lastName, setlastName] = useState("");

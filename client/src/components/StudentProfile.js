@@ -4,10 +4,11 @@ import NavigationBar from './StudentNavigationBar';
 import {Form, Button, Card} from "react-bootstrap";
 import axios from "axios";
 // import "./profile.css";
+require('dotenv').config()
 
 function StudentProfile(){
     const navigate = useNavigate();
-    const serverURL = "https://caretakerserver.azurewebsites.net/";
+    const serverURL = process.env.REACT_APP_serverURL;
     const [firstName, setfirstName] = useState("");
     const [lastName, setlastName] = useState("");
     const [email,setemail] = useState("");

@@ -3,11 +3,12 @@ import React , {useEffect,useState, useContext} from 'react';
 import './style.css';
 import {Link, useNavigate} from 'react-router-dom';
 import axios from "axios";
+require('dotenv').config()
 
 function StudentSignin() {
 
   const navigate = useNavigate();
-  const serverURL = "https://caretakerserver.azurewebsites.net/";
+  const serverURL = process.env.REACT_APP_serverURL;
   useEffect(() => {
     if(localStorage.getItem('token') && localStorage.getItem('role')==='admin'){
       console.log("HERE_1");

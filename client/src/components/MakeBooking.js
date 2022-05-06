@@ -8,10 +8,11 @@ import {Link, useNavigate} from 'react-router-dom';
 import {Form,Button} from 'react-bootstrap';
 import NavigationBar from './StudentNavigationBar';
 import axios from "axios";
+require('dotenv').config()
 
 function MakeBooking(){
     const navigate = useNavigate();
-    const serverURL = "https://caretakerserver.azurewebsites.net/";
+    const serverURL = process.env.REACT_APP_serverURL;
     const [date, setdate] = useState("");
     const [time_opt, settime] = useState("");
     const [options,setoptions]=useState([]);

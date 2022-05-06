@@ -10,6 +10,7 @@ import NavigationBar from './AdminNavigationBar';
 // import fileDownload from 'js-file-download'
 import {CSVDownload,CSVLink} from "react-csv";
 import axios from "axios";
+require('dotenv').config()
 
 function getstrDate(datetime){
   var month = datetime.getMonth();
@@ -24,7 +25,7 @@ function getstrDate(datetime){
 };
 
 function AdminViewBookings(){
-    const serverURL = "https://caretakerserver.azurewebsites.net/";
+    const serverURL = process.env.REACT_APP_serverURL;
     const navigate = useNavigate();
     const [bookings, setBookings] = useState([]);
     const [strdate, setstrdate] = useState("All");

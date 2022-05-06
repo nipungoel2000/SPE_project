@@ -2,10 +2,11 @@ import React , {useEffect,useState} from 'react';
 import {Link,useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import './style.css';
+require('dotenv').config()
 // login reference: https://codepen.io/rares-lungescu/pen/KLbMvo
 
 function AdminSignup() {
-  const serverURL = "https://caretakerserver.azurewebsites.net/";
+  const serverURL = process.env.REACT_APP_serverURL;
   const navigate = useNavigate();
   
   useEffect(() => {
