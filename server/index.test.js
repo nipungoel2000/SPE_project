@@ -5,17 +5,17 @@ const app = require("./index.js");
 
 // Tested
 describe("post request /student/signup", () => {
-    // test("status code must be 201 and type must be json list", async () => {
-    //     const response = await request(app).post("/student/signup").send({
-    //         firstName: "test_stud",
-    //         lastName: "test_stud",
-    //         email: "test_stud@gmail.com",
-    //         password: "Test@123"
-    //     })
-    //     console.log("yo",response);
-    //     expect(response.statusCode).toBe(201);
-    //     expect(response.type).toBe("application/json");
-    // })
+    test("status code must be 201 and type must be json list", async () => {
+        const response = await request(app).post("/student/signup").send({
+            firstName: "test_stud",
+            lastName: "test_stud",
+            email: "test_stud@gmail.com",
+            password: "Test@123"
+        })
+        console.log("yo",response);
+        expect(response.statusCode).toBe(201);
+        expect(response.type).toBe("application/json");
+    })
     test("status code must be 400 and type must be html text", async () => {
         const response = await request(app).post("/student/signup").send({
             firstName: "test_stud",
@@ -50,17 +50,17 @@ describe("post request /student/signin", () => {
 
 // Tested
 describe("post request /admin/signup", () => {
-    // test("status code must be 201 and type must be json list", async () => {
-    //     const response = await request(app).post("/admin/signup").send({
-    //         firstName: "test_admin",
-    //         lastName: "test_admin",
-    //         email: "test_admin@gmail.com",
-    //         password: "Test@123"
-    //     })
-    //     console.log("yo",response);
-    //     expect(response.statusCode).toBe(201);
-    //     expect(response.type).toBe("application/json");
-    // })
+    test("status code must be 201 and type must be json list", async () => {
+        const response = await request(app).post("/admin/signup").send({
+            firstName: "test_admin",
+            lastName: "test_admin",
+            email: "test_admin@gmail.com",
+            password: "Test@123"
+        })
+        console.log("yo",response);
+        expect(response.statusCode).toBe(201);
+        expect(response.type).toBe("application/json");
+    })
     test("status code must be 400 and type must be json list", async () => {
         const response = await request(app).post("/admin/signup").send({
             firstName: "test_admin",
@@ -89,6 +89,42 @@ describe("post request /admin/signin", () => {
             password: "testpassword"
         })
         expect(response.statusCode).toBe(401);
+        expect(response.type).toBe("application/json");
+    })
+})
+
+// Tested
+describe("post request /admin/signin", () => {
+    test("Status Code must be 201 and type must be json list", async () => {
+        const response = await request(app).post("/admin/signin").send({
+            email: "test_admin@gmail.com",
+            password: "Test@123"
+        })
+        expect(response.statusCode).toBe(201);
+        expect(response.type).toBe("application/json");
+    })
+})
+
+// Tested
+describe("post request /admin/deleteuser", () => {
+    test("Status Code must be 201 and type must be json list", async () => {
+        const response = await request(app).post("/admin/deleteuser").send({
+            email: "test_admin@gmail.com",
+            type: "admin"
+        })
+        expect(response.statusCode).toBe(201);
+        expect(response.type).toBe("application/json");
+    })
+})
+
+// Tested
+describe("post request /student/deleteuser", () => {
+    test("Status Code must be 201 and type must be json list", async () => {
+        const response = await request(app).post("/student/deleteuser").send({
+            email: "test_stud@gmail.com",
+            type: "student"
+        })
+        expect(response.statusCode).toBe(201);
         expect(response.type).toBe("application/json");
     })
 })

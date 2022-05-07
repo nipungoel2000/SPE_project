@@ -124,6 +124,7 @@ router.post("/getname",async (req,res) => {
 
 //get admin name
 router.post("/getname",async (req,res) => {
+    console.log("yoooo");
     try{
         const token=req.body.token;
         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
@@ -173,6 +174,25 @@ router.post("/updatedata",async (req,res) => {
     }
     catch(err){
         res.status(400).send({message: err});
+    }
+});
+
+// delete user data
+router.post("/deleteuser",async(req,res)=>{
+    try{
+        if(req.body.type=="admin")
+        {
+            const deleteBooking = await userModel.deleteOne({email:req.body.email});
+            res.status(201).send({deletedBooking: deleteBooking});
+        }
+        else
+        {
+            res.status(400).send({message:"User type is not admin"});
+        }
+    }
+    catch(err){
+        res.status(400).send({message:err})
+        // console.log("here");
     }
 });
 module.exports = router;

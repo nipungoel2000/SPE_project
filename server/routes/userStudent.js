@@ -164,4 +164,23 @@ router.post("/updatedata",async (req,res) => {
     }
 });
 
+// delete user data
+router.post("/deleteuser",async(req,res)=>{
+    try{
+        if(req.body.type=="student")
+        {
+            const deleteBooking = await userModel.deleteOne({email:req.body.email});
+            res.status(201).send({deletedBooking: deleteBooking});
+        }
+        else
+        {
+            res.status(400).send({message:"User type is not student"});
+        }
+    }
+    catch(err){
+        res.status(400).send({message:err})
+        // console.log("here");
+    }
+});
+
 module.exports = router;
