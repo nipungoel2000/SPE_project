@@ -1,0 +1,13 @@
+- name: Pull and Run docker image
+  hosts: VM01-ubuntu20
+  tasks:
+    - name: Pull CareTaker-Server image
+      docker_image:
+        name: nipungoel2000/server
+        source: pull
+    - name: Run docker image
+      docker_container:
+        name: CareTaker-Server
+        image: nipungoel2000/server
+        ports: 
+          - "80:3001"
