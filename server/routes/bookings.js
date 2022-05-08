@@ -9,17 +9,20 @@ const JWT_SECRET = process.env.JWTPRIVATEKEY;
 
 const bookingModel = require("./../models/booking.model");
 const slotModel = require("./../models/slot.model");
+const logger = require("../logging/logConfig");
 
 const {userModel,validateUser} = require("./../models/user.model");
 
 // make a new booking
 // req.body(token,startTime,endTime,date)
 router.post("/make",async (req,res) =>{
+    logger.info("inside make booking method - message from winston");
     try{
         const token=req.body.token;
         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
             if(err){
                 // console.log(err.message);
+                logger.error("unauthorized access inside makebooking method - message from winston");
                 res.status(400).send({message:err});
             }
             else{
@@ -82,6 +85,7 @@ router.post("/make",async (req,res) =>{
         })
     }
     catch(err){
+        logger.error("error inside makebooking method - message from winston");
         res.status(500).send({message: err});
     }
 });
@@ -89,10 +93,12 @@ router.post("/make",async (req,res) =>{
 //req.body(token)
 router.post("/fetchbytoken",async (req,res) => 
 {
+    logger.info("inside fetchbytokenbooking method - message from winston");
     try{
         const token=req.body.token;
         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
             if(err){
+                logger.error("unauthorized access inside fetchbytokenbooking method - message from winston");
                 res.status(400).send({message:err});
             }
             else{
@@ -107,6 +113,7 @@ router.post("/fetchbytoken",async (req,res) =>
         })        
     }
     catch(err){
+        logger.error("error inside fetchbytokenbooking method - message from winston");
         res.status(500).send({message:err});
     }
 });
@@ -114,10 +121,12 @@ router.post("/fetchbytoken",async (req,res) =>
 // req.body(token)
 // url + id
 router.delete('/delete/:id',async (req,res)=>{
+    logger.info("inside deletebooking method - message from winston");
     try{
         const token=req.body.token;
         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
             if(err){
+                logger.error("unauthorized access inside deletebooking method - message from winston");
                 res.status(400).send({message:err});
             }
             else{
@@ -151,6 +160,7 @@ router.delete('/delete/:id',async (req,res)=>{
         })        
     }
     catch(err){
+        logger.error("error inside deletebooking method - message from winston");
         res.status(500).send({message:err});
     }
     
@@ -160,6 +170,7 @@ router.delete('/delete/:id',async (req,res)=>{
 //req.body(sortby,date) ---> sortby:RoomNumber or Time, date:All or date(in string)
 router.post("/fetchall",async (req,res) =>
 {
+    logger.info("inside fetchallbookings method - message from winston");
     try{    
         var filter = {status:"active"};
         if(req.body.date!="All")
@@ -181,6 +192,7 @@ router.post("/fetchall",async (req,res) =>
         return res.status(201).send({bookingsLst : activeBookingslst});
     }
     catch(err){
+        logger.error("error inside fetchallbookings method - message from winston");
         res.status(500).send({message:err});
     }  
 });

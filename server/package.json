@@ -21,6 +21,7 @@
     "mongoose": "^6.2.10",
     "node-cron": "^3.0.0",
     "nodemon": "^2.0.15",
-    "supertest": "^6.2.3"
+    "supertest": "^6.2.3",
+    "winston": "^3.7.2"
   }
 }

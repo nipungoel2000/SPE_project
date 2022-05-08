@@ -5,16 +5,20 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const {userModel,validateUser} = require("./../models/user.model");
+const logger = require("../logging/logConfig");
+
 var numBookings_slot = 6;
 
 //GET ALL ACTIVE SLOTS
 router.get("/",async (req,res) => {
+    logger.info("inside getallslots method - message from winston");
     try{
         const activeSlots = await slotModel.find({status:"active"});
         res.json(activeSlots);
         console.log("active slots : "+ `${activeSlots}`);
     }
     catch(err){
+        logger.error("error inside getallslots method - message from winston");
         res.json({message: err});
     }
 });
@@ -23,6 +27,7 @@ router.get("/",async (req,res) => {
 //req.body({date, startTime, endTime, floor, #teams})
 router.post('/add',async(req,res) => 
 {
+    logger.info("inside addslot method - message from winston");
     try{
         console.log(req.body);
         //TOKEN CHECK(IF TO BE DONE)
@@ -58,6 +63,7 @@ router.post('/add',async(req,res) =>
         }
     }
     catch(err){
+        logger.error("error inside addslot method - message from winston");
         console.log(err);
         return res.status(500).send({message: "Addition of slot failed"});
     }
@@ -65,6 +71,7 @@ router.post('/add',async(req,res) =>
 
 //FETCH AVAILABLE SLOTS FOR A USER BY ITS TOKEN AND DATE
 router.post('/fetch',async(req,res) => {
+    logger.info("inside fetchslots method - message from winston");
     try {
         const token=req.body.token;
         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
@@ -103,6 +110,7 @@ router.post('/fetch',async(req,res) => {
             }
         })
     } catch (error) {
+        logger.error("error inside fetchslots method - message from winston");
         // console.log("Here2");
         res.status(500).send({message: error});
     }

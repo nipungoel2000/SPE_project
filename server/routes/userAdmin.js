@@ -8,6 +8,7 @@ require("dotenv").config();
 const JWT_SECRET = process.env.JWTPRIVATEKEY;
 
 const {userModel,validateUser} = require("./../models/user.model");
+const logger = require("../logging/logConfig");
 
 //get admin users
 router.get("/",async (req,res) => {
@@ -29,12 +30,18 @@ router.post("/signup", async(req, res) => {
         const {error} = validateUser(req.body);
         // console.log(error);
         if(error)
+        {
+            logger.error("error inside signin method - message from winston");
             return res.status(400).send({message : error.details[0].message}); //res.status(400).send({message : error.details[0].message})
+        }
         // console.log("User validated");
         const user = await userModel.findOne({email:req.body.email})
         // console.log(user);
         if(user)
+        {
+            logger.error("Email already in use - message from winston");
             return res.status(400).send({message: "Email already in use!!"});
+        }
         // console.log("Email validated");
         const newAdminUser = new userModel({
             firstName: req.body.firstName,
@@ -45,9 +52,11 @@ router.post("/signup", async(req, res) => {
         });
         const savedAdmin = await newAdminUser.save();
         console.log("savedAdmin" + `${savedAdmin}`);
+        logger.info("admin user signed up successfully - message from winston");
         return res.status(201).send({message: "User created successfully" });
     }catch(err){
         console.log(err);
+        logger.error("error inside signup method - message from winston");
         return res.status(500).send({message: "Internal Server Error"});
     }
 });
@@ -59,6 +68,7 @@ router.post('/signin',async (req,res) => {
         if(!admin)
         {   
             console.log("Email not in Admin Data");
+            logger.error("Invalid Email or Password - message from winston");
             return res.status(401).send({message: "Invalid Email or Password"});
             // return res.json({status: 401, message: "Invalid Email or Password"});
         }
@@ -68,25 +78,30 @@ router.post('/signin',async (req,res) => {
         if(!validPwd)
         {   
             console.log("Admin: Password not valid");
+            logger.error("Invalid Email or Password - message from winston");
             return res.status(401).send({message: "Invalid Email or Password"});
             // return res.json({status: 401, message: "Invalid Email or Password"});
         }
         const token = admin.generateAuthToken();
         console.log("Log in successful");
+        logger.info("admin user signed in successfully - message from winston");
         return res.status(201).send({data: token, message: "Logged In successfully"});
     }catch(err){
         console.log(err);
+        logger.error("error inside signin method - message from winston");
         return res.status(500).send({message: "Internal Server Error"});
     }
 });
 
 //get admin data
 router.post("/getdata",async (req,res) => {
+    logger.info("inside getdata method - message from winston");
     try{
         const token=req.body.token;
         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
             if(err){
                 // console.log(err.message);
+                logger.error("unauthorized access inside getdata method - message from winston");
                 res.status(400).send({message:err});
             }
             else{
@@ -97,17 +112,20 @@ router.post("/getdata",async (req,res) => {
         })
     }
     catch(err){
+        logger.error("error inside getdata method - message from winston");
         res.status(500).send({message: err});
     }
 });
 
 //get user name
 router.post("/getname",async (req,res) => {
+    logger.info("inside getname method - message from winston");
     try{
         const token=req.body.token;
         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
             if(err){
                 // console.log(err.message);
+                logger.error("unauthorized access inside getname method - message from winston");
                 res.status(400).send({message:err});
             }
             else{
@@ -118,34 +136,39 @@ router.post("/getname",async (req,res) => {
         })
     }
     catch(err){
+        logger.error("error inside getname method - message from winston");
         res.status(500).send({message: err});
     }
 });
 
 //get admin name
-router.post("/getname",async (req,res) => {
-    console.log("yoooo");
-    try{
-        const token=req.body.token;
-        jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
-            if(err){
-                // console.log(err.message);
-                res.status(400).send({message:err});
-            }
-            else{
-                // console.log(decodedToken);
-                let userdata=await userModel.findOne({_id:decodedToken._id});
-                res.status(201).send({name:userdata.firstName});
-            }
-        })
-    }
-    catch(err){
-        res.status(500).send({message: err});
-    }
-});
+// router.post("/getname",async (req,res) => {
+//     logger.info("inside getname method - message from winston");
+//     console.log("yoooo");
+//     try{
+//         const token=req.body.token;
+//         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
+//             if(err){
+//                 // console.log(err.message);
+//                 logger.error("unauthorized access inside getname method - message from winston");
+//                 res.status(400).send({message:err});
+//             }
+//             else{
+//                 // console.log(decodedToken);
+//                 let userdata=await userModel.findOne({_id:decodedToken._id});
+//                 res.status(201).send({name:userdata.firstName});
+//             }
+//         })
+//     }
+//     catch(err){
+//         logger.error("error inside getname method - message from winston");
+//         res.status(500).send({message: err});
+//     }
+// });
 
 // update admin data
 router.post("/updatedata",async (req,res) => {
+    logger.info("inside updatedata method - message from winston");
     try{
         const token=req.body.token;
         const newdata=req.body.newdata;
@@ -155,6 +178,7 @@ router.post("/updatedata",async (req,res) => {
         // }
         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
             if(err){
+                logger.error("unauthorized access inside updatedata method - message from winston");
                 console.log(err.message);
                 res.status(400).send({message:err});
             }
@@ -173,12 +197,14 @@ router.post("/updatedata",async (req,res) => {
         })
     }
     catch(err){
+        logger.error("error inside updatedata method - message from winston");
         res.status(400).send({message: err});
     }
 });
 
 // delete user data
 router.post("/deleteuser",async(req,res)=>{
+    logger.info("inside deleteuser method - message from winston");
     try{
         if(req.body.type=="admin")
         {
@@ -187,10 +213,12 @@ router.post("/deleteuser",async(req,res)=>{
         }
         else
         {
+            logger.error("error inside deleteuser method - message from winston");
             res.status(400).send({message:"User type is not admin"});
         }
     }
     catch(err){
+        logger.error("error inside deleteuser method - message from winston");
         res.status(400).send({message:err})
         // console.log("here");
     }

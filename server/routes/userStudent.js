@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const JWT_SECRET = process.env.JWTPRIVATEKEY;
+const logger = require("../logging/logConfig");
 
 const {userModel,validateUser} = require("./../models/user.model");
 const { request } = require("express");
@@ -30,12 +31,18 @@ router.post("/signup", async(req, res) => {
         const {error} = validateUser(req.body);
         // console.log(error);
         if(error)
+        {
+            logger.error("error inside signin method - message from winston");
             return res.status(400).send({message : error.details[0].message}); //res.status(400).send({message : error.details[0].message})
+        }
         // console.log("User validated");
         const user = await userModel.findOne({email:req.body.email})
         // console.log(user);
         if(user)
+        {
+            logger.error("Email already in use - message from winston");
             return res.status(400).send({message :"Email already in use!!"});
+        }
         // console.log("Email validated");
         const newStudentUser = new userModel({
             firstName: req.body.firstName,
@@ -46,9 +53,11 @@ router.post("/signup", async(req, res) => {
         });
         const savedStudent = await newStudentUser.save();
         console.log("savedStudent" + `${savedStudent}`);
+        logger.info("student user signed up successfully - message from winston");
         return res.status(201).send({message : "User created successfully" });
     }catch(err){
         console.log(err);
+        logger.error("error inside signin method - message from winston");
         return res.status(500).send({message: "Internal Server Error"});
     }
 });
@@ -60,6 +69,7 @@ router.post('/signin',async (req,res) => {
         if(!student)
         {   
             console.log("Email not in Student Data");
+            logger.error("Invalid Email or Password - message from winston");
             return res.status(401).send({message: "Invalid Email or Password"});
         }
         const validPwd = await bcrypt.compare(
@@ -68,24 +78,29 @@ router.post('/signin',async (req,res) => {
         if(!validPwd)
         {   
             console.log("Student: Password not valid");
+            logger.error("Invalid Email or Password - message from winston");
             return res.status(401).send({message: "Invalid Email or Password"});
         }
         const token = student.generateAuthToken();
         console.log("Log in successful");
+        logger.info("student user signed in successfully - message from winston");
         return res.status(201).send({data: token, message: "Logged In successfully"});//res.json({status: 201, data: token, message: "Logged In successfully"});
     }catch(err){
         console.log(err);
+        logger.error("error inside signin method - message from winston");
         return res.status(500).send({message: "Internal Server Error"});
     }
 });
 
 //get user data
 router.post("/getdata",async (req,res) => {
+    logger.info("inside getdata method - message from winston");
     try{
         const token=req.body.token;
         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
             if(err){
                 // console.log(err.message);
+                logger.error("unauthorized access inside getdata method - message from winston");
                 res.status(400).send({message:err});
             }
             else{
@@ -96,16 +111,19 @@ router.post("/getdata",async (req,res) => {
         })
     }
     catch(err){
+        logger.error("error inside getdata method - message from winston");
         res.status(500).send({message: err});
     }
 });
 //get user name
 router.post("/getname",async (req,res) => {
+    logger.info("inside getname method - message from winston");
     try{
         const token=req.body.token;
         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
             if(err){
                 // console.log(err.message);
+                logger.error("unauthorized access inside getname method - message from winston");
                 res.status(400).send({message:err});
             }
             else{
@@ -116,11 +134,13 @@ router.post("/getname",async (req,res) => {
         })
     }
     catch(err){
+        logger.error("error inside getname method - message from winston");
         res.status(500).send({message: err});
     }
 });
 // update user data
 router.post("/updatedata",async (req,res) => {
+    logger.info("inside updatedata method - message from winston");
     try{
         const token=req.body.token;
         const newdata=req.body.newdata;
@@ -130,6 +150,7 @@ router.post("/updatedata",async (req,res) => {
         // }
         jwt.verify(token,process.env.JWTPRIVATEKEY,async (err,decodedToken) =>{
             if(err){
+                logger.error("unauthorized access inside updatedata method - message from winston");
                 console.log(err.message);
                 res.status(400).send({message:err});
             }
@@ -154,18 +175,21 @@ router.post("/updatedata",async (req,res) => {
                     res.status(201).send({message: "Student data updated successfully"});
                 }
                 else{
+                    logger.error("error inside updatedata method - message from winston");
                     res.status(400).send({message: "Cannot update room number because of your existing booking"});
                 }
             }
         })
     }
     catch(err){
+        logger.error("error inside updatedata method - message from winston");
         res.status(500).send({message: err});
     }
 });
 
 // delete user data
 router.post("/deleteuser",async(req,res)=>{
+    logger.info("inside deleteuser method - message from winston");
     try{
         if(req.body.type=="student")
         {
@@ -174,10 +198,12 @@ router.post("/deleteuser",async(req,res)=>{
         }
         else
         {
+            logger.error("error inside deleteuser method - message from winston");
             res.status(400).send({message:"User type is not student"});
         }
     }
     catch(err){
+        logger.error("error inside deleteuser method - message from winston");
         res.status(400).send({message:err})
         // console.log("here");
     }
